@@ -10,6 +10,20 @@ size_t	ft_strlen(char const *p)
 	return (size);
 }
 
+int search(char *str,int n)
+{
+	int i;
+
+	i = 0;
+	while(str[i])
+	{
+		if(str[i] == n)
+			return(1);
+		i++;
+	}
+	return(0);
+		
+}
 int ft_strcmp(char *str1, char *str2)
 {
     int i;

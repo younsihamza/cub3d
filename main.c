@@ -66,38 +66,107 @@ void check_map(char **map)
     height = ft_strlen2d(map);
     while(map[i])
     {
-        if(ft_strlen(map[i]) > width)
+        if((int)ft_strlen(map[i]) > width)
             width = ft_strlen(map[i]);
         i++;
     }
     int *table_top = ft_calloc(sizeof(int),width);
-    int *table_bottom = ft_calloc(sizeof(int),width);
+    // int *table_bottom = ft_calloc(sizeof(int),width);
     int *table_left = ft_calloc(sizeof(int),height);
-    int *table_right = ft_calloc(sizeof(int),height);
+    // int *table_right = ft_calloc(sizeof(int),height);
     i = 0;
     int  j = 0;
     while(map[i])
     {
         j = 0;
-        while(map[i][j])
+        while(j < width)
         {
-            if(map[i][j] == '1')
-                table_top[j] = 1;
-            else if(map[i][j] != '1' && map[i][j] != ' ')
-                table_top[j] = 3;
-            else if(map[i][j] == ' ')
+            if(map[i][j])
+            {
+                if(map[i][j] == '1')
+                    table_top[j] = 1;
+                else if(search("0SF",map[i][j]) == 1 && table_top[j] != 1)
+                    table_top[j] = 3;
+                else if(map[i][j] == ' ')
+                    table_top[j] = 0;
+            }
+            else
                 table_top[j] = 0;
             j++;
         }
-        printf("%s\n",map[i]);
         check_table(table_top,width);
         i++;
     }
-    j = 0;
-    while(j < width)
+    i = height -1;
+    table_top = ft_calloc(sizeof(int),width);
+    while(i>=0)
     {
-        printf("%d\n",table_top[j++]);
+        j = 0;
+        while(j < width)
+        {
+            if(map[i][j])
+            {
+                if(map[i][j] == '1')
+                    table_top[j] = 1;
+                else if(search("0SF",map[i][j]) == 1 && table_top[j] != 1)
+                    table_top[j] = 3;
+                else if(map[i][j] == ' ')
+                    table_top[j] = 0;
+            }
+            else
+                table_top[j] = 0;
+            j++;
+        }
+        check_table(table_top,width);
+        i--;
     }
+    i = 0;
+    j = 0;
+    while(i < width)
+    {
+        j = 0;
+        while(j < height)
+        {
+            if(map[j][i])
+            {
+                if(map[j][i] == '1')
+                    table_left[j] = 1;
+                else if(search("0SF",map[j][i]) == 1 && table_left[j] != 1)
+                    table_left[j] = 3;
+                else if(map[j][i] == ' ')
+                    table_left[j] = 0;
+            }else
+                table_left[j] = 0;
+            j++;
+        }
+        check_table(table_left,height);
+        i++;
+    }
+    table_left = ft_calloc(sizeof(int),height);
+
+    i = width -1;
+    while(i >= 0)
+    {
+        j = 0;
+        while(j < height)
+        {
+            if(map[j][i])
+            {
+                if(map[j][i] == '1')
+                    table_left[j] = 1;
+                else if(search("0SF",map[j][i]) == 1 && table_left[j] != 1)
+                    table_left[j] = 3;
+                else if(map[j][i] == ' ')
+                    table_left[j] = 0;
+            }else
+                table_left[j] = 0;
+            j++;
+        }
+        check_table(table_left,height);
+        i--;
+    }
+    j = 0;
+  
 }
 int main(int argc,char **argv)
 {
