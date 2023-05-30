@@ -21,5 +21,5 @@ char	*get_next_line(int fd);
 int     ft_strcmp(char *str1, char *str2);
 int	ft_strncmp( const char *str1, const char *str2, size_t n);
 int	ft_strlen2d(char **s1);
-int search(char *str,int n);
+int search(char *str,char n);
 #endif 

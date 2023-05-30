@@ -10,7 +10,7 @@ size_t	ft_strlen(char const *p)
 	return (size);
 }
 
-int search(char *str,int n)
+int search(char *str,char n)
 {
 	int i;
 
