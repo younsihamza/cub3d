@@ -1,30 +1,34 @@
-NAME = cub3d
+#!/bin/sh
+NAME = cub3D
 
-CC = cc
+CC = cc 
 
-
-header = ./cub3d.h
 FLAG = -Wall -Wextra  -Werror 
 
+HEADER = ./get_next_line.h
 
-files = main.c get_next_line.c get_next_line_utils.c tools.c
+
+FLAGS = -lmlx -framework OpenGL -framework AppKit
 
 
-OPJECT = $(files:.c=.o)
+SRCS =   cub3d.c parcer_map.c ft_split.c  get_next_line.c get_next_line_utils.c ft_atoi.c tools.c ft_itoa.c
+
+OBJS = $(SRCS:.c=.o)
 
 
 all: $(NAME)
 
-$(NAME): $(OPJECT)
-	$(CC) $(FLAG)  $^ -o $@ 
 
-%.o : %.c $(header)
-	$(CC) $(FLAG)  -c -o $@  $< 
+$(NAME): $(OBJS) 
+	$(CC)  $(FLAG)  -lmlx -framework OpenGL -framework AppKit  $^ -o $@  
+	
+%.o : %.c  $(HEADER)
+	$(CC) $(FLAG)  -Imlx -c -o $@ $<
 
-clean: 
-	rm $(OPJECT)
+clean:
+	rm -f $(OBJS)
 
-fclean : clean 
-	rm $(NAME)
+fclean: clean
+	rm -f $(NAME) 
 
-re : fclean all
+re: fclean all 

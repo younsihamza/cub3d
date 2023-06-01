@@ -3,99 +3,112 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ichouare <ichouare@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 12:21:40 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/05/29 16:42:03 by hyounsi          ###   ########.fr       */
+/*   Created: 2022/10/27 10:13:14 by ichouare          #+#    #+#             */
+/*   Updated: 2023/05/30 15:45:15 by ichouare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "get_next_line.h"
 
-char	*ft_strchr( char *str, int c)
+
+void	*ft_calloc(size_t number, size_t size)
 {
-	int	i;
+	void			*arr;
 
-	i = 0;
-	if (!str)
+	arr = NULL;
+	arr = (void *)malloc(size * number);
+	if (!arr)
 		return (NULL);
-	while (*str != (char)c)
-	{
-		if (!*str)
-			return (NULL);
-		str++;
-	}
-	return ((char *)str);
+	ft_bzero(arr, size * number);
+	return (arr);
 }
 
-void	help_1(char **s, char **p, int a)
+void	ft_bzero(void *s, size_t n)
 {
-	char	*tmp;
+	unsigned char	*p1;
 
-	if (!*s && a != 0)
+	p1 = s;
+	while (n--)
 	{
-		*s = ft_substr(*p, 0, ft_strlens(*p, '\0') + 1);
-		ft_bzero(*p, ft_strlens(*p, '\0'));
-	}
-	else if (a != 0)
-	{
-		tmp = *s;
-		*s = ft_strjoin(*s, *p);
-		free(tmp);
-		ft_bzero(*p, ft_strlens(*p, '\0'));
+		*p1 = '\0';
+		p1++;
 	}
 }
 
-char	*help_fn(char **s, char **p)
+static char	*heandler_next_line(char **svr, char *line)
 {
-	char	*line;
 	char	*tmp;
+	int		index;
 
-	if (ft_strlens(*s, '\0') == 0)
+	index = 0;
+	if (found_nl(*svr, '\0') == 0)
 	{
-		free(*s);
-		free(*p);
+		free(*svr);
+		*svr = NULL;
 		return (NULL);
 	}
-	if (ft_strchr(*s, '\n'))
+	if (ft_strchr(*svr, '\n'))
 	{
-		line = ft_substr(*s, 0, ft_strlens(*s, '\n'));
-		tmp = *s;
-		*s = ft_substr(*s, ft_strlens(*s, '\n') + 1, ft_strlens(*s, '\0') + 1);
+		index = found_nl(*svr, '\n');
+		line = ft_substr(*svr, 0, index + 1);
+		tmp = *svr;
+		*svr = ft_substr(*svr, index + 1, found_nl(*svr, '\0') + 1);
 		free(tmp);
 	}
 	else
 	{
-		tmp = *s;
-		line = ft_substr(*s, 0, ft_strlens(*s, '\0'));
-		free(tmp);
-		*s = NULL;
+		line = ft_substr(*svr, 0, found_nl(*svr, '\0') + 1);
+		free(*svr);
+		*svr = NULL;
 	}
-	free(*p);
 	return (line);
+}
+
+static char	*handler_line( char **svr, char **buffer, int fd, int BUFFER_SIZE)
+{
+	char			*tmp;
+	ssize_t			sz;
+
+	sz = 1;
+	while (ft_strchr(*svr, '\n') == 0 && sz != 0)
+	{
+		sz = read(fd, *buffer, BUFFER_SIZE);
+		if (sz <= -1)
+		{
+			free(*buffer);
+			free(*svr);
+			return (NULL);
+		}
+		tmp = *svr;
+		*svr = ft_strjoin(*svr, *buffer);
+		free(tmp);
+		tmp = NULL;
+		ft_bzero(*buffer, found_nl(*buffer, '\0') + 1);
+	}
+	return (*svr);
 }
 
 char	*get_next_line(int fd)
 {
-	char			*p;
-	static char		*s;
-	char			*line;
-	int				a;
+	char		*buffer;
+	static char	*svr;
+	char		*line;
+	int BUFFER_SIZE = 1;
 
-	a = 3;
-	p = (char *)ft_callocs(sizeof(char), 2);
-	if (!p)
+	line = NULL;
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	while (ft_strchr(s, '\n') == NULL && a)
-	{
-		a = read(fd, p, 1);
-		if (a < 0)
-		{
-			free(p);
-			return (NULL);
-		}
-		help_1(&s, &p, a);
-	}
-	line = help_fn(&s, &p);
-	return (line);
+	buffer = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
+	if (!svr)
+		svr = ft_substr(buffer, 0, found_nl(buffer, '\0'));
+	svr = handler_line(&svr, &buffer, fd, BUFFER_SIZE);
+	if (!svr)
+		return (NULL);
+	free(buffer);
+	return (heandler_next_line(&svr, line));
 }
+

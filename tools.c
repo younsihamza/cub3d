@@ -1,4 +1,4 @@
-#include "cub3d.h"
+#include "get_next_line.h"
 
 size_t	ft_strlen(char const *p)
 {
@@ -52,22 +52,6 @@ int	ft_strncmp( const char *str1, const char *str2, size_t n)
 	return (*(str11 + i) - *(str22 + i));
 }
 
-void	*ft_calloc(size_t nitems, size_t size)
-{
-	size_t	i;
-	void	*p;
-
-	i = 0;
-	p = malloc(size * nitems);
-	if (!p)
-		exit (0);
-	while (i < nitems * size)
-	{
-		*(char *)(p + i) = '\0';
-		i++;
-	}
-	return (p);
-}
 
 int	ft_strlen2d(char **s1)
 {

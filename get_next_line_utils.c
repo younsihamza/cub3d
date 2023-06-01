@@ -3,103 +3,103 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ichouare <ichouare@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 13:16:44 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/05/29 16:40:07 by hyounsi          ###   ########.fr       */
+/*   Created: 2022/10/27 10:13:11 by ichouare          #+#    #+#             */
+/*   Updated: 2023/05/29 15:40:23 by ichouare         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "get_next_line.h"
 
-void	ft_bzero(void *s, size_t n)
+
+size_t	found_nl(const char *str, int c)
 {
-	size_t		i;
-	char		*p;
+	int	i;
 
-	p = (char *)s;
-	i = 0;
-	while (i < n)
-	{
-		*(p + i) = '\0';
-		i++;
-	}
-}
-
-void	*ft_callocs(size_t nitems, size_t size)
-{
-	size_t	i;
-	void	*p;
-
-	i = 0;
-	p = malloc(size * nitems);
-	if (!p)
-		return (NULL);
-	ft_bzero(p, size * nitems);
-	return (p);
-}
-
-size_t	ft_strlens(char *p, char a)
-{
-	size_t	i;
-
-	i = 0;
-	if (!p)
+	if (!str)
 		return (0);
-	while (*(p + i) != a)
+	i = 0;
+	while (str[i] != (char)c)
 		i++;
 	return (i);
 }
 
-char	*ft_substr(char *s, size_t start, size_t len)
+//join function 
+static char	*strimplement(char *str, char const *s1, char const *s2)
 {
-	size_t	i;
-	size_t	j;
-	size_t	r;
-	char	*p;
+	unsigned int	i;
+	unsigned int	j;
 
-	j = 0 ;
-	i = start ;
-	if (!s)
-		return (NULL);
-	if (start >= ft_strlens(s, '\0'))
+	i = 0;
+	j = 0;
+	while (s1[j])
 	{
-		p = (char *)ft_callocs(sizeof(char), 1);
-		return (p);
+		str[i] = s1[j];
+		j++;
+		i++;
 	}
-	if (ft_strlens(s + start, '\0') > len)
-		r = len;
-	else
-		r = ft_strlens(s + start, '\0');
-	p = (char *)ft_callocs(sizeof(char), r + 1);
-	if (!p)
-		return (NULL);
-	while (j < r)
-		*(p + j++) = *(s + i++);
-	return (p);
+	j = 0;
+	while (s2[j])
+	{
+		str[i] = s2[j];
+		j++;
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char const *s2)
 {
-	size_t	len_s1;
-	size_t	len_s2;
-	size_t	i;
-	size_t	j;
-	char	*p;
+	char			*str;
 
-	if (!s1 || !s2)
+	if (!s1 && !s2)
 		return (NULL);
-	len_s1 = ft_strlens(s1, '\0');
-	len_s2 = ft_strlens(s2, '\0');
-	j = 0;
+	str = NULL;
+	str = (char *)malloc(sizeof(char) * (found_nl(s1, '\0')
+				+ found_nl(s2, '\0') + 1));
+	if (!str)
+		return (NULL);
+	return (strimplement(str, s1, s2));
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*arr;
+	size_t	i;
+	int		size;
+
+	arr = NULL;
 	i = 0;
-	p = (char *)ft_callocs(sizeof(char), (len_s1 + len_s2) + 1);
-	if (!p)
+	if (!s)
 		return (NULL);
-	while (*(s1 + j))
-		*(p + i++) = *(s1 + j++);
-	j = 0;
-	while (*(s2 + j))
-		*(p + i++) = *(s2 + j++);
-	return (p);
+	if (found_nl(s, '\0') > len)
+		size = len;
+	else
+		size = found_nl(s, '\0') - start;
+	arr = (char *)(malloc(sizeof(char) * (size + 1)));
+	if (!arr)
+		return (NULL);
+	while (size--)
+	{
+		*(arr + i) = *(s + start + i);
+		i++;
+	}
+	arr[i] = '\0';
+	return (arr);
+}
+
+//fucntion strchr for '\n
+char	*ft_strchr(char *s, int c)
+{
+	if (!s)
+		return (NULL);
+	while (*s != (char)c)
+	{
+		if (!*s)
+			return (0);
+		s++;
+	}
+	return (s);
 }
