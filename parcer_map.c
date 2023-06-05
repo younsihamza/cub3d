@@ -153,7 +153,7 @@ void check_map(char **map)
 int parcer_map(t_vars *vs)
 {
     char *tmp = NULL;
-    char **color = NULL;
+    //char **color = NULL;
     int i = 0;
     if(vs->map_fd < 0)
     {
@@ -240,64 +240,64 @@ int parcer_map(t_vars *vs)
     }
     // j = 0;
     i = 0;
-    while(i < j)
-    {
-         int k = 0;
-         while(vs->texture[k] != NULL)
-         {
-            if(k == i)
-              k++;
-            else if(strcmp(vs->texture[k][0], vs->texture[i][0]) == 0)
-            {
-                printf("vs->texture duplicated");
-                return(0);
-            }
-            k++;
+    // while(i < j)
+    // {
+    //      int k = 0;
+    //      while(vs->texture[k] != NULL)
+    //      {
+    //         if(k == i)
+    //           k++;
+    //         else if(strcmp(vs->texture[k][0], vs->texture[i][0]) == 0)
+    //         {
+    //             printf("vs->texture duplicated");
+    //             return(0);
+    //         }
+    //         k++;
 
-         }  
-         i++; 
-    }
-    i = 0;
-    close(vs->map_fd);
-    while(vs->texture[i] != NULL)
-    {
-        if(strncmp(vs->texture[i][0], "F", 1) == 0 || strncmp(vs->texture[i][0], "C", 1) == 0)
-        {
-            tmp = ft_substr(vs->texture[i][1], 0, strlen(vs->texture[i][1]) - 1);
-            if(tmp == NULL)
-                return(0);
-            color = ft_split(tmp, ',');
-            free(tmp);
-            j = 0;
-            while(color[j] != NULL)
-            {
-                if(ft_isalpha(color[j]) == -1 || ft_atoi(color[j]) < 0 || ft_atoi(color[j]) > 255)
-                {
-                    printf("color not acceptable");
-                    return(0);
-                }
-                j++;
-            }
-            i++;
-        }
-        else
-        {
-            tmp = ft_substr(vs->texture[i][1], 0, strlen(vs->texture[i][1]) - 1);
-            if(tmp == NULL)
-                return(0);
-            vs->map_fd = open(tmp, O_RDWR);
-            if(vs->map_fd < 0)
-                return(0);
-            free(tmp);
-            tmp = ft_substr(tmp, ft_lastindex(tmp, '.'), strlen(tmp));
-            if(tmp == NULL)
-                return(0);
-            if(strncmp(tmp, ".xpm", strlen(tmp)) != 0)
-                    return(0);
-            free(tmp);
-            i++;
-        }
-    }
+    //      }  
+    //      i++; 
+    // }
+    // i = 0;
+    // close(vs->map_fd);
+    // while(vs->texture[i] != NULL)
+    // {
+    //     if(strncmp(vs->texture[i][0], "F", 1) == 0 || strncmp(vs->texture[i][0], "C", 1) == 0)
+    //     {
+    //         tmp = ft_substr(vs->texture[i][1], 0, strlen(vs->texture[i][1]) - 1);
+    //         if(tmp == NULL)
+    //             return(0);
+    //         color = ft_split(tmp, ',');
+    //         free(tmp);
+    //         j = 0;
+    //         while(color[j] != NULL)
+    //         {
+    //             if(ft_isalpha(color[j]) == -1 || ft_atoi(color[j]) < 0 || ft_atoi(color[j]) > 255)
+    //             {
+    //                 printf("color not acceptable");
+    //                 return(0);
+    //             }
+    //             j++;
+    //         }
+    //         i++;
+    //     }
+    //     else
+    //     {
+    //         tmp = ft_substr(vs->texture[i][1], 0, strlen(vs->texture[i][1]) - 1);
+    //         if(tmp == NULL)
+    //             return(0);
+    //         vs->map_fd = open(tmp, O_RDWR);
+    //         if(vs->map_fd < 0)
+    //             return(0);
+    //         free(tmp);
+    //         tmp = ft_substr(tmp, ft_lastindex(tmp, '.'), strlen(tmp));
+    //         if(tmp == NULL)
+    //             return(0);
+    //         if(strncmp(tmp, ".xpm", strlen(tmp)) != 0)
+    //                 return(0);
+    //         free(tmp);
+    //         i++;
+    //     }
+    // }
     check_map(vs->store_map);
     return(1);
 }

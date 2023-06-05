@@ -3,12 +3,12 @@ NAME = cub3D
 
 CC = cc 
 
-FLAG = -Wall -Wextra  -Werror 
+FLAG = -Wall -Wextra  -Werror  #-fsanitize=address
 
 HEADER = ./get_next_line.h
 
 
-FLAGS = -lmlx -framework OpenGL -framework AppKit
+FLAGS = -lmlx -framework OpenGL -framework AppKit 
 
 
 SRCS =   cub3d.c parcer_map.c ft_split.c  get_next_line.c get_next_line_utils.c ft_atoi.c tools.c ft_itoa.c
