@@ -6,6 +6,7 @@
 #include     <mlx.h>
 #include <stdio.h> 
  #include <fcntl.h>
+//  #include <MLX42/MLX42.h>
  #include <math.h>
 
 
@@ -18,6 +19,15 @@ typedef struct vars{
     double x_now;
     double y_now;
     double deriction;
+    void *wind2;
+    int width_window;
+    int height_window;
+    int map;
+    int key;
+    int left;
+    int up;
+    int down;
+    int right;
 } t_vars;
 
 size_t	found_nl(const char *str, int c);
@@ -38,4 +48,5 @@ void	*ft_calloc(size_t nitems, size_t size);
 int	ft_strlen2d(char **s1);
 void	ft_bzero(void *s, size_t n);
 char	*ft_itoa(int n);
+int ft_draw(t_vars *vars);
 #endif
