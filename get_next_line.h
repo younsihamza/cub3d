@@ -10,6 +10,17 @@
  #include <math.h>
 
 
+
+typedef struct	s_data {
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+    int height;
+    int width;
+}	t_data;
+
 typedef struct vars{
     void	*mlx;
     void  *mlx_win;
@@ -27,9 +38,10 @@ typedef struct vars{
     int left;
     int up;
     int down;
+    t_data n_image;
+    t_data main_image;
     int right;
 } t_vars;
-
 size_t	found_nl(const char *str, int c);
 char	*ft_strjoin(char *s1, char const *s2);
 char	*ft_strchr(char *s, int c);
@@ -47,6 +59,7 @@ int	ft_strncmp( const char *str1, const char *str2, size_t n);
 void	*ft_calloc(size_t nitems, size_t size);
 int	ft_strlen2d(char **s1);
 void	ft_bzero(void *s, size_t n);
+char	**ft_join2d(char **env, char *var);
 char	*ft_itoa(int n);
 int ft_draw(t_vars *vars);
 #endif

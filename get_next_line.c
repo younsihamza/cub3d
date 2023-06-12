@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ichouare <ichouare@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 10:13:14 by ichouare          #+#    #+#             */
-/*   Updated: 2023/05/30 15:45:15 by ichouare         ###   ########.fr       */
+/*   Updated: 2023/06/12 16:34:02 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ static char	*heandler_next_line(char **svr, char *line)
 	if (ft_strchr(*svr, '\n'))
 	{
 		index = found_nl(*svr, '\n');
-		line = ft_substr(*svr, 0, index + 1);
+		line = ft_substr(*svr, 0, index );
 		tmp = *svr;
 		*svr = ft_substr(*svr, index + 1, found_nl(*svr, '\0') + 1);
 		free(tmp);
 	}
 	else
 	{
-		line = ft_substr(*svr, 0, found_nl(*svr, '\0') + 1);
+		line = ft_substr(*svr, 0, found_nl(*svr, '\0'));
 		free(*svr);
 		*svr = NULL;
 	}

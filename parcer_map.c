@@ -162,82 +162,82 @@ int parcer_map(t_vars *vs)
     tmp = get_next_line(vs->map_fd);
     while(tmp != NULL)
     {
-        if(tmp[0] != '\n')
-            i++;
+       vs->store_map = ft_join2d(vs->store_map,tmp);
         tmp = get_next_line(vs->map_fd);
-        free(tmp);
+        i++;
         
     }
-    vs->texture = calloc(sizeof(char *), 7);
-    vs->store_map = calloc(sizeof(char *), (i - 5));
-    close(vs->map_fd);
-    vs->map_fd = open("./map/map.cub", O_RDONLY);
-    i = 0;
-    // stote data fo vs->texture in 2D array format
-    while(i < 6)
-    {
-        tmp = get_next_line(vs->map_fd);
-        if(tmp[0] != '\n')
-        {
-            vs->texture[i] = ft_split(tmp, ' ');
-            i++;
-        }
-        free(tmp);
-    }
-    // store data of map items in 2D array  format
-    tmp = get_next_line(vs->map_fd);
-    i = 0;
-    while(tmp != NULL)
-    {
-        if(tmp[0] != '\n')
-        {
-            vs->store_map[i] = strdup(tmp);
-            i++;
-        }
-        free(tmp);
-        tmp = get_next_line(vs->map_fd);
-    }
-    i = 0;
-    int j = 0;
-    while(vs->texture[i] != NULL)
-    {
-        if(strlen(vs->texture[i][0]) == 2)
-        {
-            if(strncmp(vs->texture[i][0], "NO", 2) == 0 || strncmp(vs->texture[i][0], "SO", 2) == 0
-            || strncmp(vs->texture[i][0], "WE", 2) == 0 || strncmp(vs->texture[i][0], "EA", 2) == 0)
-            {
-                j++;
-            }
-            else
-            {   
-                printf("vs->texture not available");
-                return(0);
-            }
-        }
-        else if(strlen(vs->texture[i][0]) == 1)
-        {
-            if( strncmp(vs->texture[i][0], "F",1) == 0|| strncmp(vs->texture[i][0], "C",1) == 0)
-                j++;
-            else
-            {
-                    puts("heref");
-                printf("vs->texture not available");
-                return(0);
-            }  
-        }
-        else
-        {
-            perror("vs->texture don't  respect the rules");
-            return(0);
-        }
-       i++;
-    }
-    if(i != j)
-    {
-        // puts("here");
-        perror("vs->texture don't  respect the rules");
-        return(0);
-    }
+    //printf("%d\n",i);
+    // vs->texture = calloc(sizeof(char *), 7);
+    // vs->store_map = calloc(sizeof(char *), (i - 5));
+    // close(vs->map_fd);
+    // vs->map_fd = open("./map/map.cub", O_RDONLY);
+    // i = 0;
+    // // stote data fo vs->texture in 2D array format
+    // while(i < 6)
+    // {
+    //     tmp = get_next_line(vs->map_fd);
+    //     if(tmp[0] != '\n')
+    //     {
+    //         vs->texture[i] = ft_split(tmp, ' ');
+    //         i++;
+    //     }
+    //     free(tmp);
+    // }
+    // // store data of map items in 2D array  format
+    // tmp = get_next_line(vs->map_fd);
+    // i = 0;
+    // while(tmp != NULL)
+    // {
+    //     if(tmp[0] != '\n')
+    //     {
+    //         vs->store_map[i] = strdup(tmp);
+    //         i++;
+    //     }
+    //     free(tmp);
+    //     tmp = get_next_line(vs->map_fd);
+    // }
+    // i = 0;
+   // int j = 0;
+    // while(vs->texture[i] != NULL)
+    // {
+    //     if(strlen(vs->texture[i][0]) == 2)
+    //     {
+    //         if(strncmp(vs->texture[i][0], "NO", 2) == 0 || strncmp(vs->texture[i][0], "SO", 2) == 0
+    //         || strncmp(vs->texture[i][0], "WE", 2) == 0 || strncmp(vs->texture[i][0], "EA", 2) == 0)
+    //         {
+    //             j++;
+    //         }
+    //         else
+    //         {   
+    //             printf("vs->texture not available");
+    //             return(0);
+    //         }
+    //     }
+    //     else if(strlen(vs->texture[i][0]) == 1)
+    //     {
+    //         if( strncmp(vs->texture[i][0], "F",1) == 0|| strncmp(vs->texture[i][0], "C",1) == 0)
+    //             j++;
+    //         else
+    //         {
+    //                 puts("heref");
+    //             printf("vs->texture not available");
+    //             return(0);
+    //         }  
+    //     }
+    //     else
+    //     {
+    //         perror("vs->texture don't  respect the rules");
+    //         return(0);
+    //     }
+    //    i++;
+    // }
+    // if(i != j)
+    // {
+    //     // puts("here");
+    //     perror("vs->texture don't  respect the rules");
+    //     return(0);
+    // }
     // j = 0;
     i = 0;
     // while(i < j)
