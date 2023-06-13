@@ -3,7 +3,7 @@ NAME = cub3D
 
 CC = cc 
 
-FLAG = -Wall -Wextra  -Werror   #-fsanitize=address
+FLAG = -Wall -Wextra  -Werror    -Ofast
 
 HEADER = ./get_next_line.h
 
