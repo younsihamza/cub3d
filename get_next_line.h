@@ -22,6 +22,7 @@ typedef struct	s_data {
 }	t_data;
 
 typedef struct vars{
+    int size;
     void	*mlx;
     void  *mlx_win;
 	char ***texture;
@@ -30,6 +31,8 @@ typedef struct vars{
     double x_now;
     double y_now;
     double deriction;
+    int len_h;
+    int len_v;
     void *wind2;
     int width_window;
     int height_window;
@@ -41,6 +44,14 @@ typedef struct vars{
     t_data n_image;
     t_data main_image;
     int right;
+    double plane_height;
+    double plane_x_v;
+    double plane_y_v;
+    double plane_des_v;
+    double plane_x_h;
+    double plane_y_h;
+    double plane_des_h;
+    int speed;
 } t_vars;
 size_t	found_nl(const char *str, int c);
 char	*ft_strjoin(char *s1, char const *s2);
