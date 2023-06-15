@@ -42,6 +42,9 @@ typedef struct vars{
     int up;
     int down;
     t_data n_image;
+    t_data s_image;
+    t_data e_image;
+    t_data w_image;
     t_data main_image;
     int right;
     double plane_height;
@@ -52,6 +55,7 @@ typedef struct vars{
     double plane_y_h;
     double plane_des_h;
     int speed;
+    int pas;
 } t_vars;
 size_t	found_nl(const char *str, int c);
 char	*ft_strjoin(char *s1, char const *s2);

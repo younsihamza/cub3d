@@ -52,10 +52,10 @@ int key_hook(int key,double k, t_vars *vars)
 {
 		double PI = 3.141592653589793238462203383279502884197;
 	k= 0;
-	if ((key == 126) && check_pixel(vars,sin(vars->deriction) * 20,cos(vars->deriction) *20) == 0)
+	if ((key == 126) && check_pixel(vars,sin(vars->deriction) * vars->speed,cos(vars->deriction) *vars->speed) == 0)
 	{
-		vars->x_now += cos(vars->deriction) *20;
-		vars->y_now += sin(vars->deriction) * 20;
+		vars->x_now += cos(vars->deriction) * vars->speed;
+		vars->y_now += sin(vars->deriction) * vars->speed;
 		ft_draw(vars);
 	}
 	 if ( key == 124)
@@ -68,10 +68,10 @@ int key_hook(int key,double k, t_vars *vars)
 		vars->deriction -= 0.1;
 		ft_draw(vars);
 	}
-	if ((key == 125) && check_pixel(vars, -sin(vars->deriction) * 5,-cos(vars->deriction) * 5) == 0)
+	if ((key == 125) && check_pixel(vars, -sin(vars->deriction) * vars->speed,-cos(vars->deriction) * vars->speed) == 0)
 	{
-		vars->x_now -= cos(vars->deriction) * 5;
-		vars->y_now -= sin(vars->deriction) * 5;
+		vars->x_now -= cos(vars->deriction) * vars->speed;
+		vars->y_now -= sin(vars->deriction) * vars->speed;
 		ft_draw(vars);
 	}
 	if(key == 46)
@@ -83,33 +83,33 @@ int key_hook(int key,double k, t_vars *vars)
 		ft_draw(vars);
 	}
 
-	if (((key == 13 ) || vars->up == 1) && check_pixel(vars, sin(vars->deriction) * 10,cos(vars->deriction) * 10) == 0 )
+	if (((key == 13 ) || vars->up == 1) && check_pixel(vars, sin(vars->deriction) * vars->speed,cos(vars->deriction) * vars->speed) == 0 )
 	{
 		vars->up = 1;
-		vars->x_now += cos(vars->deriction) * 10;
-		vars->y_now += sin(vars->deriction) * 10;
+		vars->x_now += cos(vars->deriction) * vars->speed;
+		vars->y_now += sin(vars->deriction) * vars->speed;
 		ft_draw(vars);
 	}
-	 if ((key == 2  || vars->right == 1) && check_pixel(vars, sin(vars->deriction+(PI/2)) * 10,cos(vars->deriction+(PI/2)) * 10) == 0)
+	 if ((key == 2  || vars->right == 1) && check_pixel(vars, sin(vars->deriction+(PI/2)) * vars->speed,cos(vars->deriction+(PI/2)) * vars->speed) == 0)
 	 {
 		vars->right = 1;
-		vars->x_now += cos(vars->deriction+(PI/2)) * 10;
-		vars->y_now += sin(vars->deriction+(PI/2)) * 10;
+		vars->x_now += cos(vars->deriction+(PI/2)) * vars->speed;
+		vars->y_now += sin(vars->deriction+(PI/2)) * vars->speed;
 		ft_draw(vars);
 	 }
-	if ((key == 0 ||vars->left == 1) && check_pixel(vars, sin(vars->deriction-(PI/2)) * 10,cos(vars->deriction-(PI/2)) * 10) == 0)
+	if ((key == 0 ||vars->left == 1) && check_pixel(vars, sin(vars->deriction-(PI/2)) * vars->speed,cos(vars->deriction-(PI/2)) * vars->speed) == 0)
 	{
 		vars->left = 1;
-		vars->x_now += cos(vars->deriction-(PI/2)) * 10;
-		vars->y_now += sin(vars->deriction-(PI/2)) * 10;
+		vars->x_now += cos(vars->deriction-(PI/2)) * vars->speed;
+		vars->y_now += sin(vars->deriction-(PI/2)) * vars->speed;
 		ft_draw(vars);
 	}
-	if (((key == 1 )|| vars->down == 1) && check_pixel(vars, -sin(vars->deriction) * 10,-cos(vars->deriction) * 10) == 0)
+	if (((key == 1 )|| vars->down == 1) && check_pixel(vars, -sin(vars->deriction) * vars->speed,-cos(vars->deriction) * vars->speed) == 0)
 	{
 		vars->down = 1;
 		
-		vars->x_now -= cos(vars->deriction) * 10;
-		vars->y_now -= sin(vars->deriction) * 10;
+		vars->x_now -= cos(vars->deriction) * vars->speed;
+		vars->y_now -= sin(vars->deriction) * vars->speed;
 		ft_draw(vars);
 	}
 	
@@ -146,7 +146,7 @@ void ber_c(t_vars *vars, double xi, double yi, double xf, double yf)
 	Yinc = dy / s;
 	while (i <= s)
 	{
-		if(y< 0 || y > 14*64 )
+		if(y< 0 || y >= vars->len_v*vars->size )
 			y = 0;
 		my_mlx_pixel_put(&vars->main_image,x,y,create_trgb(0, 135, 206, 235));
 		x += Xinc;
@@ -178,7 +178,7 @@ void ber_floor(t_vars *vars, double xi, double yi, double xf, double yf)
 	Yinc = dy / s;
 	while (i <= s)
 	{
-		if(y< 0 || y > 14*64 )
+		if(y < 0 || y >= vars->len_v*vars->size)
 			y = 0;
 		my_mlx_pixel_put(&vars->main_image,x,y,create_trgb(0, 218, 160, 109));
 		x += Xinc;
@@ -187,7 +187,7 @@ void ber_floor(t_vars *vars, double xi, double yi, double xf, double yf)
 	}
 }
 
-void ber(t_vars *vars, int xi, int yi, int xf, int yf,int  offset_x)
+void ber(t_vars *vars, int xi, int yi, int xf, int yf,int  offset_x,t_data *image)
 {
 	//(void)color;
 	double dy;
@@ -213,15 +213,10 @@ void ber(t_vars *vars, int xi, int yi, int xf, int yf,int  offset_x)
 	while (i <= s)
 	{
 	char *d = NULL;
-		if( y < 0 || y > vars->len_v * (vars->size-1))
-		{
+		if( y < 0 || y >= vars->len_v * (vars->size))
 			y = 0;
-			//yi = 0;
-		}
-		int offset_y = abs((int)(y -  yi)) * 512.0/(yf - yi);
-		//printf("%f\n",64.0/(yf - yi));
-			//printf("x =%d  y = %d  :: y -yi = %d  :: ya =%d  yi = %d\n",offset_y,offset_x,(int)(y -  yi),(int)y,(int)yi);
-		d = (vars->n_image.addr + ((int)offset_y * vars->n_image.line_length) + (offset_x*(int)(vars->n_image.bits_per_pixel/8)));
+		int offset_y = (double)abs((int)(y -  yi)) *( (double)image->width/(yf - yi));
+		d = (image->addr + ((int)offset_y * image->line_length) + (offset_x*(int)(image->bits_per_pixel/8)));
 		color = *(unsigned int*)d;
 		my_mlx_pixel_put(&vars->main_image,(int)x,(int)y,color);
 		x += Xinc;
@@ -298,7 +293,7 @@ void check_vertical(t_vars *vars, double angle)
 		offset = -1;
 	}
 	ystep = tan(angle) * xstep;
-	while (vars->plane_y_v / vars->size >= 0 && (int)(vars->plane_y_v / vars->size) < vars->len_v && vars->plane_x_v / vars->size >= 0 && ft_strlen(vars->store_map[(int)vars->plane_y_v / vars->size]) >= vars->plane_x_v / vars->size && vars->store_map[(int)(vars->plane_y_v) / 64][(int)(vars->plane_x_v + offset) / vars->size] != '1')
+	while (vars->plane_y_v / vars->size >= 0 && (int)(vars->plane_y_v / vars->size) < vars->len_v && vars->plane_x_v / vars->size >= 0 && ft_strlen(vars->store_map[(int)vars->plane_y_v / vars->size]) >= vars->plane_x_v / vars->size && vars->store_map[(int)(vars->plane_y_v) / vars->size][(int)(vars->plane_x_v + offset) / vars->size] != '1')
 	{
 		vars->plane_x_v += xstep;
 		vars->plane_y_v += ystep;
@@ -358,28 +353,28 @@ int ft_draw(t_vars *vars)
 						vars->plane_height = ((vars->height_window/14)/vars->plane_des_v)*p_d;
 						if(cos(vars->deriction + angle*(PI/180)) < 0)
 						{
-							offset = (int)((1-(fmod(vars->plane_y_v,64) / 64)) * 512);
-					  		ber(vars,r,((vars->height_window)/2 - (vars->plane_height)/2) ,r,(vars->height_window)/2 + (vars->plane_height)/2,offset);
+							offset = (int)((1-(fmod(vars->plane_y_v,vars->size) / vars->size)) * vars->w_image.width);
+					  		ber(vars,r,((vars->height_window)/2 - (vars->plane_height)/2) ,r,(vars->height_window)/2 + (vars->plane_height)/2,offset,&vars->w_image);
 						}
 						else
 						{
-							offset = (int)((( fmod(vars->plane_y_v,64)) / 64) * 512);
-							ber(vars,r,((vars->height_window)/2 - (vars->plane_height)/2) ,r,(vars->height_window)/2 + (vars->plane_height)/2, offset);
+							offset = (int)((( fmod(vars->plane_y_v,vars->size)) / vars->size) * vars->e_image.width);
+							ber(vars,r,((vars->height_window)/2 - (vars->plane_height)/2) ,r,(vars->height_window)/2 + (vars->plane_height)/2, offset,&vars->e_image);
 						}
 					}
 					else
 					{
 						vars->plane_des_h = vars->plane_des_h*cos(angle*(PI/180));
-						vars->plane_height = ((vars->height_window/14)/vars->plane_des_h)*p_d;
+						vars->plane_height = (vars->size/vars->plane_des_h)*p_d;
 						if(sin(vars->deriction + angle*(PI/180)) < 0)
 						{
-							offset = (int)((fmod(vars->plane_x_h,64)/64) * 512)    ;
-					  		ber(vars,r,((vars->height_window)/2 - (vars->plane_height)/2) ,r,(vars->height_window)/2 + (vars->plane_height)/2, offset);
+							offset = (int)((fmod(vars->plane_x_h,vars->size)/vars->size) * vars->n_image.width)  ;
+					  		ber(vars,r,((vars->height_window)/2 - (vars->plane_height)/2) ,r,(vars->height_window)/2 + (vars->plane_height)/2, offset,&vars->n_image);
 						}
 						else
-						{
-							offset = (int)((1 - (fmod(vars->plane_x_h,64)/64))*512);
-							ber(vars,r,((vars->height_window)/2 - (vars->plane_height)/2) ,r,(vars->height_window)/2 + (vars->plane_height)/2, offset);
+						{      
+							offset = (int)((1 - (fmod(vars->plane_x_h,vars->size)/vars->size))*vars->s_image.width);
+							ber(vars,r,((vars->height_window)/2 - (vars->plane_height)/2) ,r,(vars->height_window)/2 + (vars->plane_height)/2, offset,&vars->s_image);
 						}
 					}
 
@@ -424,9 +419,7 @@ int main(int argc, char **argv)
 	if (vars.map_fd == -1)
 		return (write(2, "ERROR : file did not open \n", 28));
 	if (parcer_map(&vars) == 0)
-	{
 		return 0;
-	}
 
 	vars.mlx = mlx_init();
 	vars.size = 64;
@@ -434,6 +427,7 @@ int main(int argc, char **argv)
 	vars.len_v = 14;
 	vars.width_window =33*64;
 	vars.height_window = 14*64;
+	vars.speed = 10;
 	vars.mlx_win = mlx_new_window(vars.mlx,vars.width_window ,vars.height_window, "dd");
 	int i = 0;
 	int j = 0;
@@ -444,17 +438,24 @@ int main(int argc, char **argv)
 		{
 			if (vars.store_map[i][j] == 'N')
 			{
-				vars.x_now = (int)(j * 64 + vars.size/2);
-				vars.y_now = (int)(i * 64 + vars.size/2);
+				vars.x_now = (int)(j * vars.size + vars.size/2);
+				vars.y_now = (int)(i * vars.size + vars.size/2);
 				vars.deriction = (3*PI)/2;
 			}
 			j++;
 		}
 		i++;
 	}
-	vars.n_image.img = mlx_xpm_file_to_image(vars.mlx,"hamza.xpm",&vars.n_image.width,&vars.n_image.height);
-	printf("%d  %d\n",vars.n_image.width,vars.n_image.height);
+	vars.n_image.img = mlx_xpm_file_to_image(vars.mlx,"n.xpm",&vars.n_image.width,&vars.n_image.height);
+	vars.e_image.img = mlx_xpm_file_to_image(vars.mlx,"e.xpm",&vars.e_image.width,&vars.e_image.height);
+	vars.w_image.img = mlx_xpm_file_to_image(vars.mlx,"w.xpm",&vars.w_image.width,&vars.w_image.height);
+	vars.s_image.img = mlx_xpm_file_to_image(vars.mlx,"s.xpm",&vars.s_image.width,&vars.s_image.height);
+
 	vars.n_image.addr = mlx_get_data_addr(vars.n_image.img, &vars.n_image.bits_per_pixel, &vars.n_image.line_length,&vars.n_image.endian);
+	vars.e_image.addr = mlx_get_data_addr(vars.e_image.img, &vars.e_image.bits_per_pixel, &vars.e_image.line_length,&vars.e_image.endian);
+	vars.w_image.addr = mlx_get_data_addr(vars.w_image.img, &vars.w_image.bits_per_pixel, &vars.w_image.line_length,&vars.w_image.endian);
+	vars.s_image.addr = mlx_get_data_addr(vars.s_image.img, &vars.s_image.bits_per_pixel, &vars.s_image.line_length,&vars.s_image.endian);
+	
 	mlx_loop_hook(vars.mlx, ft_draw, &vars);
 	ft_draw(&vars);
 	mlx_hook(vars.mlx_win, 2,0, key_hook, &vars);
