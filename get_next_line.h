@@ -41,12 +41,18 @@ typedef struct vars{
     int left;
     int up;
     int down;
+    int right;
+
+    int f_left;
+    int f_up;
+    int f_down;
+    int f_right;
+    
     t_data n_image;
     t_data s_image;
     t_data e_image;
     t_data w_image;
     t_data main_image;
-    int right;
     double plane_height;
     double plane_x_v;
     double plane_y_v;
@@ -77,4 +83,5 @@ void	ft_bzero(void *s, size_t n);
 char	**ft_join2d(char **env, char *var);
 char	*ft_itoa(int n);
 int ft_draw(t_vars *vars);
+size_t	ft_strlens(char *p, char a);
 #endif

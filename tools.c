@@ -86,3 +86,15 @@ char	**ft_join2d(char **env, char *var)
 	p[i] = var;
 	return (p);
 }
+
+size_t	ft_strlens(char *p, char a)
+{
+	size_t	i;
+
+	i = 0;
+	if (!p)
+		return (0);
+	while (*(p + i) != a && *(p + i))
+		i++;
+	return (i);
+}

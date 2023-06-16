@@ -87,7 +87,19 @@ void iterate_height(int *table ,char **map,int i)
         j++;
     }
 }
-
+int ft_lenchr(char *s)
+{
+ int i ;
+ int len = 0;;
+ i = 0;
+ while(s[i])
+ {
+    if(ft_strchr("01NESW",s[i])!= NULL)
+        len++;
+    i++;
+ }
+ return (len);
+}
 int max_len2d(char **map)
 {
     int i;
@@ -152,55 +164,80 @@ void check_map(char **map)
 
 int parcer_map(t_vars *vs)
 {
-    char *tmp = NULL;
-    //char **color = NULL;
-    int i = 0;
+     char *tmp = NULL;
+    // //char **color = NULL;
+     int i = 0;
     if(vs->map_fd < 0)
-    {
         return -1;
-    }
     tmp = get_next_line(vs->map_fd);
     while(tmp != NULL)
     {
        vs->store_map = ft_join2d(vs->store_map,tmp);
         tmp = get_next_line(vs->map_fd);
-        i++;
-        
+        i++;   
     }
-    //printf("%d\n",i);
-    // vs->texture = calloc(sizeof(char *), 7);
-    // vs->store_map = calloc(sizeof(char *), (i - 5));
-    // close(vs->map_fd);
-    // vs->map_fd = open("./map/map.cub", O_RDONLY);
-    // i = 0;
-    // // stote data fo vs->texture in 2D array format
-    // while(i < 6)
+     int nuw_line = 0;
+//     i = 0;
+//     char *tmp = NULL;
+//     //char **color = NULL;
+//    // int i = 0;
+//     int fd= open("./map/map.cub", O_RDONLY);
+//     int fd1 = open("./map/map.cub", O_RDONLY);
+//     tmp = calloc(2, sizeof(char ));
+//     if(fd < 0)
+//         return -1;
+//     tmp = get_next_line(fd);
+//     while(tmp != NULL)
+//     {
+//             i++;
+//         free(tmp);
+//         tmp = get_next_line(fd);
+//     }
+//     vs->store_map = calloc(sizeof(char *), (i - 5));
+//     vs->texture = calloc(sizeof(char *), 7);
+//     i = 0;
+//     while(i < 6)
+//     {
+//         vs->texture[i] = calloc(sizeof(char *),1);
+//         i++;
+//     }
+   
+//     close(fd);
+//     i = 0;
+//     // stote data fo vs->texture in 2D array format
+//     while(i < 6)
+//     {
+//         tmp = get_next_line(fd1);
+//         if(tmp[0] != '\n')
+//         {
+//             vs->texture[i] = ft_split(tmp, ' ');
+//             i++;
+//         }
+//         free(tmp);
+//     }
+    
+//     // store data of map items in 2D array  format
+//     tmp = get_next_line(fd1);
+//     i = 0;
+//     int check = 0;
+//     while(tmp != NULL)
+//     {
+//         if(ft_strchr(tmp,'1') != NULL)
+//             check = 1;
+//         if( check == 1)
+//         {
+//             vs->store_map[i] = strdup(tmp);
+//             i++;
+//         }
+//         free(tmp);
+//         tmp = get_next_line(fd1);
+//     }
+    
+//     free(tmp);
+    // int j = 0;
+    // while(i < 5)
     // {
-    //     tmp = get_next_line(vs->map_fd);
-    //     if(tmp[0] != '\n')
-    //     {
-    //         vs->texture[i] = ft_split(tmp, ' ');
-    //         i++;
-    //     }
-    //     free(tmp);
-    // }
-    // // store data of map items in 2D array  format
-    // tmp = get_next_line(vs->map_fd);
-    // i = 0;
-    // while(tmp != NULL)
-    // {
-    //     if(tmp[0] != '\n')
-    //     {
-    //         vs->store_map[i] = strdup(tmp);
-    //         i++;
-    //     }
-    //     free(tmp);
-    //     tmp = get_next_line(vs->map_fd);
-    // }
-    // i = 0;
-   // int j = 0;
-    // while(vs->texture[i] != NULL)
-    // {
+        
     //     if(strlen(vs->texture[i][0]) == 2)
     //     {
     //         if(strncmp(vs->texture[i][0], "NO", 2) == 0 || strncmp(vs->texture[i][0], "SO", 2) == 0
@@ -220,27 +257,26 @@ int parcer_map(t_vars *vs)
     //             j++;
     //         else
     //         {
-    //                 puts("heref");
     //             printf("vs->texture not available");
     //             return(0);
     //         }  
     //     }
     //     else
     //     {
-    //         perror("vs->texture don't  respect the rules");
-    //         return(0);
+         
+    //         return(0);   perror("vs->texture don't  respect the rules");
     //     }
     //    i++;
     // }
+    
     // if(i != j)
     // {
-    //     // puts("here");
     //     perror("vs->texture don't  respect the rules");
     //     return(0);
     // }
-    // j = 0;
-    i = 0;
-    // while(i < j)
+    // // j = 0;
+    // i = 0;
+    // while(i < j - 1)
     // {
     //      int k = 0;
     //      while(vs->texture[k] != NULL)
@@ -258,7 +294,7 @@ int parcer_map(t_vars *vs)
     //      i++; 
     // }
     // i = 0;
-    // close(vs->map_fd);
+    // close(fd);
     // while(vs->texture[i] != NULL)
     // {
     //     if(strncmp(vs->texture[i][0], "F", 1) == 0 || strncmp(vs->texture[i][0], "C", 1) == 0)
@@ -278,26 +314,26 @@ int parcer_map(t_vars *vs)
     //             }
     //             j++;
     //         }
-    //         i++;
     //     }
-    //     else
-    //     {
-    //         tmp = ft_substr(vs->texture[i][1], 0, strlen(vs->texture[i][1]) - 1);
-    //         if(tmp == NULL)
-    //             return(0);
-    //         vs->map_fd = open(tmp, O_RDWR);
-    //         if(vs->map_fd < 0)
-    //             return(0);
-    //         free(tmp);
-    //         tmp = ft_substr(tmp, ft_lastindex(tmp, '.'), strlen(tmp));
-    //         if(tmp == NULL)
-    //             return(0);
-    //         if(strncmp(tmp, ".xpm", strlen(tmp)) != 0)
-    //                 return(0);
-    //         free(tmp);
-    //         i++;
-    //     }
+
+    //     i++;
     // }
+    i = 0;
+    vs->len_v = 0;
+    vs->len_h = 0;
+    while(vs->store_map[i])
+    {
+        if(ft_strchr(vs->store_map[i],'1') == NULL)
+            nuw_line = 1;
+        else
+             vs->len_v++;
+        if(ft_lenchr(vs->store_map[i]) > vs->len_h)
+            vs->len_h = ft_lenchr(vs->store_map[i]);
+        if(ft_strlens(vs->store_map[i],'\n') != 0 && nuw_line == 1)
+            exit(1);
+        i++;
+    }
     check_map(vs->store_map);
+    printf("%d  %d \n",vs->len_h,vs->len_v);
     return(1);
 }

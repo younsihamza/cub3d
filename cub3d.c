@@ -38,7 +38,7 @@ int check_pixel(t_vars *vars, double sin_value ,double cos_value)
 		j = -5;
 		while (j < 5)
 		{
-				if (vars->store_map[(int)(vars->y_now + i + sin_value ) / (vars->height_window/14)][(int)((vars->x_now + j + cos_value) / (vars->size ))] == '1')
+				if ((int)(vars->y_now + i + sin_value )/(vars->size) < 0 ||(int)(vars->y_now + i + sin_value )/(vars->size) > vars->len_v || (int)((vars->x_now + j + cos_value) / (vars->size )) < 0 || (int)((vars->x_now + j + cos_value) / (vars->size ))> vars->len_h ||vars->store_map[(int)(vars->y_now + i + sin_value ) / (vars->size)][(int)((vars->x_now + j + cos_value) / (vars->size ))] == '1')
 					return (-1);
 			j += 1;
 		}
@@ -48,10 +48,11 @@ int check_pixel(t_vars *vars, double sin_value ,double cos_value)
 }
 
 
-int key_hook(int key,double k, t_vars *vars)
+int key_hook(int key, t_vars *vars)
 {
-		double PI = 3.141592653589793238462203383279502884197;
-	k= 0;
+	double PI = 3.141592653589793238462203383279502884197;
+	if(key == 53)
+		exit(0);
 	if ((key == 126) && check_pixel(vars,sin(vars->deriction) * vars->speed,cos(vars->deriction) *vars->speed) == 0)
 	{
 		vars->x_now += cos(vars->deriction) * vars->speed;
@@ -146,7 +147,7 @@ void ber_c(t_vars *vars, double xi, double yi, double xf, double yf)
 	Yinc = dy / s;
 	while (i <= s)
 	{
-		if(y< 0 || y >= vars->len_v*vars->size )
+		if(y < 0 || y >= vars->height_window )
 			y = 0;
 		my_mlx_pixel_put(&vars->main_image,x,y,create_trgb(0, 135, 206, 235));
 		x += Xinc;
@@ -178,7 +179,7 @@ void ber_floor(t_vars *vars, double xi, double yi, double xf, double yf)
 	Yinc = dy / s;
 	while (i <= s)
 	{
-		if(y < 0 || y >= vars->len_v*vars->size)
+		if(y < 0 || y >= vars->height_window)
 			y = 0;
 		my_mlx_pixel_put(&vars->main_image,x,y,create_trgb(0, 218, 160, 109));
 		x += Xinc;
@@ -213,9 +214,10 @@ void ber(t_vars *vars, int xi, int yi, int xf, int yf,int  offset_x,t_data *imag
 	while (i <= s)
 	{
 	char *d = NULL;
-		if( y < 0 || y >= vars->len_v * (vars->size))
+		if( y < 0 || y >= vars->height_window)
 			y = 0;
-		int offset_y = (double)abs((int)(y -  yi)) *( (double)image->width/(yf - yi));
+		//printf("%f   %f\n",y,x);
+		int offset_y = abs((int)(y -  yi)) *( (double)image->height/(yf - yi));
 		d = (image->addr + ((int)offset_y * image->line_length) + (offset_x*(int)(image->bits_per_pixel/8)));
 		color = *(unsigned int*)d;
 		my_mlx_pixel_put(&vars->main_image,(int)x,(int)y,color);
@@ -271,6 +273,7 @@ int kk(int key ,t_vars *vars)
 		vars->left = 0;
 	if(key == 1)
 		vars->down = 0;
+		
 	return(0);
 }
 void check_vertical(t_vars *vars, double angle)
@@ -323,7 +326,7 @@ int ft_draw(t_vars *vars)
 				while (x <= (vars->size))
 				{
 					y = 0;
-					while (y <= (vars->height_window/14))
+					while (y <= (vars->size))
 					{
 						my_mlx_pixel_put(&vars->main_image,x,y,create_trgb(0, 218, 160, 109));
 						y++;
@@ -332,7 +335,7 @@ int ft_draw(t_vars *vars)
 				}
 				
 			}
-			if (j == (int)vars->x_now / (vars->size) && i == (int)vars->y_now /  (vars->height_window/14) )
+			if (j == (int)vars->x_now / (vars->size) && i == (int)vars->y_now /  (vars->size) )
 			{
 				x = 0;
 				y = 0;
@@ -350,7 +353,7 @@ int ft_draw(t_vars *vars)
 					if (vars->plane_des_h >= vars->plane_des_v)
 					{
 						vars->plane_des_v = vars->plane_des_v*cos(angle*(PI/180));
-						vars->plane_height = ((vars->height_window/14)/vars->plane_des_v)*p_d;
+						vars->plane_height = ((vars->size)/vars->plane_des_v)*p_d;
 						if(cos(vars->deriction + angle*(PI/180)) < 0)
 						{
 							offset = (int)((1-(fmod(vars->plane_y_v,vars->size) / vars->size)) * vars->w_image.width);
@@ -403,10 +406,6 @@ int main(int argc, char **argv)
 	vars.texture = NULL;
 	vars.mlx = NULL;
 	vars.mlx_win = NULL;
-
-
-
-
 	vars.left = 0;
 	vars.right = 0;
 	vars.down = 0;
@@ -422,12 +421,14 @@ int main(int argc, char **argv)
 		return 0;
 
 	vars.mlx = mlx_init();
-	vars.size = 64;
-	vars.len_h = 33;
-	vars.len_v = 14;
-	vars.width_window =33*64;
-	vars.height_window = 14*64;
-	vars.speed = 10;
+	vars.size = 100;
+	vars.width_window =1280;
+	vars.height_window = 720;
+	printf("height = %d   width = %d",vars.height_window ,vars.width_window);
+	if(vars.width_window > 5120 || vars.height_window > 2880)
+		exit(0);
+	
+	vars.speed = 20;
 	vars.mlx_win = mlx_new_window(vars.mlx,vars.width_window ,vars.height_window, "dd");
 	int i = 0;
 	int j = 0;
@@ -436,11 +437,18 @@ int main(int argc, char **argv)
 		j = 0;
 		while (vars.store_map[i][j])
 		{
-			if (vars.store_map[i][j] == 'N')
+			if (ft_strchr("NSWE",vars.store_map[i][j]) != NULL)
 			{
 				vars.x_now = (int)(j * vars.size + vars.size/2);
 				vars.y_now = (int)(i * vars.size + vars.size/2);
-				vars.deriction = (3*PI)/2;
+				if(vars.store_map[i][j] == 'N')
+					vars.deriction = (3*PI)/2;
+				else if(vars.store_map[i][j] == 'S')
+					vars.deriction = (PI)/2;
+				else if(vars.store_map[i][j] == 'E')
+					vars.deriction = 0;
+				else if(vars.store_map[i][j] == 'W')
+					vars.deriction = PI;
 			}
 			j++;
 		}
