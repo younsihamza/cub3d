@@ -48,6 +48,11 @@ typedef struct vars{
     int f_down;
     int f_right;
     
+    t_data two_d_image;
+
+    t_data minimap;
+    int x_mouse;
+    int old_x_mouse;
     t_data n_image;
     t_data s_image;
     t_data e_image;

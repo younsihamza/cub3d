@@ -144,7 +144,6 @@ int parcer_map(t_vars *vs)
                 return(0);
             }
             k++;
-
          }  
          i++; 
     }

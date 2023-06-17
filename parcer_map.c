@@ -177,63 +177,7 @@ int parcer_map(t_vars *vs)
         i++;   
     }
      int nuw_line = 0;
-//     i = 0;
-//     char *tmp = NULL;
-//     //char **color = NULL;
-//    // int i = 0;
-//     int fd= open("./map/map.cub", O_RDONLY);
-//     int fd1 = open("./map/map.cub", O_RDONLY);
-//     tmp = calloc(2, sizeof(char ));
-//     if(fd < 0)
-//         return -1;
-//     tmp = get_next_line(fd);
-//     while(tmp != NULL)
-//     {
-//             i++;
-//         free(tmp);
-//         tmp = get_next_line(fd);
-//     }
-//     vs->store_map = calloc(sizeof(char *), (i - 5));
-//     vs->texture = calloc(sizeof(char *), 7);
-//     i = 0;
-//     while(i < 6)
-//     {
-//         vs->texture[i] = calloc(sizeof(char *),1);
-//         i++;
-//     }
-   
-//     close(fd);
-//     i = 0;
-//     // stote data fo vs->texture in 2D array format
-//     while(i < 6)
-//     {
-//         tmp = get_next_line(fd1);
-//         if(tmp[0] != '\n')
-//         {
-//             vs->texture[i] = ft_split(tmp, ' ');
-//             i++;
-//         }
-//         free(tmp);
-//     }
-    
-//     // store data of map items in 2D array  format
-//     tmp = get_next_line(fd1);
-//     i = 0;
-//     int check = 0;
-//     while(tmp != NULL)
-//     {
-//         if(ft_strchr(tmp,'1') != NULL)
-//             check = 1;
-//         if( check == 1)
-//         {
-//             vs->store_map[i] = strdup(tmp);
-//             i++;
-//         }
-//         free(tmp);
-//         tmp = get_next_line(fd1);
-//     }
-    
-//     free(tmp);
+//   w
     // int j = 0;
     // while(i < 5)
     // {
