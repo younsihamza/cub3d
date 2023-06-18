@@ -50,6 +50,7 @@ typedef struct vars{
     
     t_data two_d_image;
 
+    t_data weapen;
     t_data minimap;
     int x_mouse;
     int old_x_mouse;

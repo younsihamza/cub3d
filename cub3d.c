@@ -31,12 +31,12 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 int check_pixel(t_vars *vars, double sin_value ,double cos_value)
 {
-	double i = -5;
+	double i = -2;
 	double j;
-	while (i < 5)
+	while (i < 2)
 	{
-		j = -5;
-		while (j < 5)
+		j = -2;
+		while (j < 2)
 		{
 				if ((int)(vars->y_now + i + sin_value )/(vars->size) < 0 ||(int)(vars->y_now + i + sin_value )/(vars->size) > vars->len_v || (int)((vars->x_now + j + cos_value) / (vars->size )) < 0 || (int)((vars->x_now + j + cos_value) / (vars->size ))> vars->len_h ||vars->store_map[(int)(vars->y_now + i + sin_value ) / (vars->size)][(int)((vars->x_now + j + cos_value) / (vars->size ))] == '1')
 					return (-1);
@@ -225,8 +225,7 @@ int kk(int key ,t_vars *vars)
 	else if(key == 123)
 		vars->f_left = 0;
 	else if(key == 125)
-		vars->f_down = 0;
-		
+		vars->f_down = 0;	
 	return(0);
 }
 void check_vertical(t_vars *vars, double angle)
@@ -258,7 +257,41 @@ void check_vertical(t_vars *vars, double angle)
 }
 void minimap(t_vars *vars)
 {
-		
+		int i ;
+		int j;
+		i = 0;
+		j = 0;
+		while(i < 200)
+		{
+			j = 0;
+			while(j < 200)
+			{
+				my_mlx_pixel_put(&vars->minimap,i,j,99541);
+				j++;
+			}
+			i++;
+		}
+		i = -100;	
+		while(i < 100)
+		{
+			j = -100;
+			if((i + (vars->y_now)) >= 0 && (i + (vars->y_now)) <= vars->size * vars->len_v-vars->size)
+			{
+			while( j < 100)
+			{
+				if((j + vars->x_now) >= 0 && (j + vars->x_now) <= vars->size * vars->len_h-vars->size)
+				{
+
+					char *buf;
+					buf  =  (vars->two_d_image.addr + (int)((int)(i +vars->y_now) * vars->two_d_image.line_length) + (int)((int)(j + vars->x_now)* (vars->two_d_image.bits_per_pixel/8)));
+					my_mlx_pixel_put(&vars->minimap,j+100 ,i+100 ,*(unsigned int *)buf);
+				}
+				j++;
+			}
+			}
+			
+			i++;
+		}
 }
 int ft_draw(t_vars *vars)
 {
@@ -270,7 +303,7 @@ int ft_draw(t_vars *vars)
 	mlx_clear_window(vars->mlx, vars->mlx_win);
 	vars->main_image.img = mlx_new_image(vars->mlx,vars->width_window,vars->height_window);
 	vars->main_image.addr = mlx_get_data_addr(vars->main_image.img, &vars->main_image.bits_per_pixel, &vars->main_image.line_length,&vars->main_image.endian);
-	vars->two_d_image.img = mlx_new_image(vars->mlx,10*vars->len_h,10*vars->len_v);
+	vars->two_d_image.img = mlx_new_image(vars->mlx,vars->size*vars->len_h,vars->size*vars->len_v);
 	vars->two_d_image.addr = mlx_get_data_addr(vars->two_d_image.img, &vars->two_d_image.bits_per_pixel, &vars->two_d_image.line_length,&vars->two_d_image.endian);
 	vars->minimap.img = mlx_new_image(vars->mlx,200,200);
 	vars->minimap.addr = mlx_get_data_addr(vars->minimap.img, &vars->minimap.bits_per_pixel, &vars->minimap.line_length,&vars->minimap.endian);
@@ -285,12 +318,13 @@ int ft_draw(t_vars *vars)
 			y = 0;
 			if(vars->store_map[i][j] == '1')
 			{
-				while(x < 10)
+				
+				while(x < vars->size)
 				{
 					y = 0;
-					while(y < 10)
+					while(y < vars->size)
 					{
-						my_mlx_pixel_put(&vars->two_d_image,j*10+y,i*10+x,645551);
+						my_mlx_pixel_put(&vars->two_d_image,j*vars->size+y,i*vars->size+x,16711680);
 						y++;
 					}
 					x++;
@@ -305,12 +339,12 @@ int ft_draw(t_vars *vars)
 					y = -2;
 					while(y < 2)
 					{
-						my_mlx_pixel_put(&vars->two_d_image,(vars->x_now / (vars->size))*10+y,(vars->y_now / (vars->size))*10+x,978464);
+						my_mlx_pixel_put(&vars->two_d_image,(vars->x_now / (vars->size))*vars->size+y,(vars->y_now / (vars->size))*vars->size+x,978464);
 						y++;
 					}
 					while(f < 10)
 					{
-						my_mlx_pixel_put(&vars->two_d_image,(vars->x_now / (vars->size))*10 + f*cos(vars->deriction),(vars->y_now / (vars->size))*10+f*sin(vars->deriction),978464);
+						my_mlx_pixel_put(&vars->two_d_image,(vars->x_now / (vars->size))*vars->size + f*cos(vars->deriction),(vars->y_now / (vars->size))*vars->size+f*sin(vars->deriction),978464);
 						f++;
 					}
 					x++;
@@ -377,8 +411,13 @@ int ft_draw(t_vars *vars)
 		v++;
 	}
 	minimap(vars);
-	mlx_put_image_to_window(vars->mlx,vars->mlx_win,vars->two_d_image.img,0,0);
+	mlx_put_image_to_window(vars->mlx,vars->mlx_win,vars->main_image.img,0,0);
+	//mlx_put_image_to_window(vars->mlx,vars->mlx_win,vars->two_d_image.img,0,0);
+	mlx_put_image_to_window(vars->mlx,vars->mlx_win,vars->minimap.img,0,0);
+	mlx_put_image_to_window(vars->mlx,vars->mlx_win,vars->weapen.img,vars->width_window /2- 20,vars->height_window/2 - 20);
 	mlx_destroy_image(vars->mlx,vars->main_image.img);
+	mlx_destroy_image(vars->mlx,vars->two_d_image.img);
+	//mlx_destroy_image(vars->mlx,vars->minimap.img);
 	
 	return (0);
 }
@@ -392,21 +431,18 @@ int move (t_vars *vars)
 		//vars->up = 1;
 		vars->x_now += cos(vars->deriction) * vars->speed;
 		vars->y_now += sin(vars->deriction) * vars->speed;
-		ft_draw(vars);
 	}
 	if (( vars->right == 1) && check_pixel(vars, sin(vars->deriction+(PI/2)) * vars->speed,cos(vars->deriction+(PI/2)) * vars->speed) == 0)
 	 {
 		//ars->right = 1;
 		vars->x_now += cos(vars->deriction+(PI/2)) * vars->speed;
 		vars->y_now += sin(vars->deriction+(PI/2)) * vars->speed;
-		ft_draw(vars);
 	 }
 	if ((vars->left == 1) && check_pixel(vars, sin(vars->deriction-(PI/2)) * vars->speed,cos(vars->deriction-(PI/2)) * vars->speed) == 0)
 	{
 		//vars->left = 1;
 		vars->x_now += cos(vars->deriction-(PI/2)) * vars->speed;
 		vars->y_now += sin(vars->deriction-(PI/2)) * vars->speed;
-		ft_draw(vars);
 	}
 	if (( vars->down == 1) && check_pixel(vars, -sin(vars->deriction) * vars->speed,-cos(vars->deriction) * vars->speed) == 0)
 	{
@@ -414,30 +450,26 @@ int move (t_vars *vars)
 		
 		vars->x_now -= cos(vars->deriction) * vars->speed;
 		vars->y_now -= sin(vars->deriction) * vars->speed;
-		ft_draw(vars);
 	}
 		if ((vars->f_up == 1) && check_pixel(vars,sin(vars->deriction) * vars->speed,cos(vars->deriction) *vars->speed) == 0)
 	{
 		vars->x_now += cos(vars->deriction) * vars->speed;
 		vars->y_now += sin(vars->deriction) * vars->speed;
-		ft_draw(vars);
 	}
 	 if ( vars->f_right == 1)
 	 {
-		vars->deriction += 0.1;
-		ft_draw(vars);
+		vars->deriction += 0.05;
 	 }
 	if ( vars->f_left == 1)
 	{
-		vars->deriction -= 0.1;
-		ft_draw(vars);
+		vars->deriction -= 0.05;
 	}
 	if ((vars->f_down == 1) && check_pixel(vars, -sin(vars->deriction) * vars->speed,-cos(vars->deriction) * vars->speed) == 0)
 	{
 		vars->x_now -= cos(vars->deriction) * vars->speed;
 		vars->y_now -= sin(vars->deriction) * vars->speed;
-		ft_draw(vars);
 	}
+		ft_draw(vars);
 	return 0;
 }
 int red_cross()
@@ -472,10 +504,10 @@ int main(int argc, char **argv)
 	if (parcer_map(&vars) == 0)
 		return 0;
 	vars.mlx = mlx_init();
-	vars.size = 64;
+	vars.size = 10;
 	vars.width_window =1280;
 	vars.height_window = 720;
-	vars.speed = 20;
+	vars.speed = 3;
 	vars.mlx_win = mlx_new_window(vars.mlx,vars.width_window ,vars.height_window, "dd");
 	int i = 0;
 	int j = 0;
@@ -501,10 +533,11 @@ int main(int argc, char **argv)
 		}
 		i++;
 	}
-	vars.n_image.img = mlx_xpm_file_to_image(vars.mlx,"n.xpm",&vars.n_image.width,&vars.n_image.height);
-	vars.e_image.img = mlx_xpm_file_to_image(vars.mlx,"e.xpm",&vars.e_image.width,&vars.e_image.height);
-	vars.w_image.img = mlx_xpm_file_to_image(vars.mlx,"w.xpm",&vars.w_image.width,&vars.w_image.height);
-	vars.s_image.img = mlx_xpm_file_to_image(vars.mlx,"s.xpm",&vars.s_image.width,&vars.s_image.height);
+	vars.n_image.img = mlx_xpm_file_to_image(vars.mlx,"a.xpm",&vars.n_image.width,&vars.n_image.height);
+	vars.e_image.img = mlx_xpm_file_to_image(vars.mlx,"a.xpm",&vars.e_image.width,&vars.e_image.height);
+	vars.w_image.img = mlx_xpm_file_to_image(vars.mlx,"a.xpm",&vars.w_image.width,&vars.w_image.height);
+	vars.s_image.img = mlx_xpm_file_to_image(vars.mlx,"a.xpm",&vars.s_image.width,&vars.s_image.height);
+	vars.weapen.img = mlx_xpm_file_to_image(vars.mlx,"1.xpm",&vars.weapen.width,&vars.weapen.height);
 
 	vars.n_image.addr = mlx_get_data_addr(vars.n_image.img, &vars.n_image.bits_per_pixel, &vars.n_image.line_length,&vars.n_image.endian);
 	vars.e_image.addr = mlx_get_data_addr(vars.e_image.img, &vars.e_image.bits_per_pixel, &vars.e_image.line_length,&vars.e_image.endian);
