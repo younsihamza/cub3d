@@ -1,17 +1,16 @@
 #!/bin/sh
-NAME = cub3D
+NAME = cub3d
 
 CC = cc 
 
-FLAG = -Wall -Wextra  -Werror    -Ofast -g -fsanitize=address 
+FLAGA = -Wall -Wextra  -Werror  -fsanitize=address  
 
-HEADER = ./get_next_line.h
-
-
-FLAGS = -lmlx -framework OpenGL -framework AppKit 
+HEADER = cub3d.h
 
 
-SRCS =   cub3d.c parcer_map.c ft_split.c  get_next_line.c get_next_line_utils.c ft_atoi.c tools.c ft_itoa.c
+
+
+SRCS =   cub3d.c parcer_map.c ft_split.c  get_next_line.c get_next_line_utils.c ft_atoi.c tools.c ft_itoa.c   map_tools.c map_tools_1.c  help_parcer_1.c help_parcer_2.c help_parcer_3.c help_1.c help_2.c help_3.c help_4.c help_5.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -20,10 +19,10 @@ all: $(NAME)
 
 
 $(NAME): $(OBJS) 
-	$(CC)  $(FLAG)  -lmlx -framework OpenGL -framework AppKit  $^ -o $@  
+	$(CC)  $(FLAGA)  -lmlx -framework OpenGL -framework AppKit  $^ -o $@  
 	
 %.o : %.c  $(HEADER)
-	$(CC) $(FLAG)  -Imlx -c -o $@ $<
+	$(CC) $(FLAGA)  -Imlx -c -o $@ $<
 
 clean:
 	rm -f $(OBJS)

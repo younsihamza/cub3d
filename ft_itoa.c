@@ -6,11 +6,11 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:34:42 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/05/31 15:58:57 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/21 13:05:55 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "cub3d.h"
 
 static void	putnb(char *arr, int n, int c)
 {

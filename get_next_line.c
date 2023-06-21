@@ -6,12 +6,11 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 10:13:14 by ichouare          #+#    #+#             */
-/*   Updated: 2023/06/12 16:34:02 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/21 21:50:03 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-
+#include "cub3d.h"
 
 void	*ft_calloc(size_t number, size_t size)
 {
@@ -52,9 +51,9 @@ static char	*heandler_next_line(char **svr, char *line)
 	if (ft_strchr(*svr, '\n'))
 	{
 		index = found_nl(*svr, '\n');
-		line = ft_substr(*svr, 0, index );
+		line = ft_substr(*svr, 0, index);
 		tmp = *svr;
-		*svr = ft_substr(*svr, index + 1, found_nl(*svr, '\0') + 1);
+		*svr = ft_substr(*svr, index + 1, found_nl(*svr, '\0'));
 		free(tmp);
 	}
 	else
@@ -66,7 +65,7 @@ static char	*heandler_next_line(char **svr, char *line)
 	return (line);
 }
 
-static char	*handler_line( char **svr, char **buffer, int fd, int BUFFER_SIZE)
+static char	*handler_line( char **svr, char **buffer, int fd, int size_bf)
 {
 	char			*tmp;
 	ssize_t			sz;
@@ -74,7 +73,7 @@ static char	*handler_line( char **svr, char **buffer, int fd, int BUFFER_SIZE)
 	sz = 1;
 	while (ft_strchr(*svr, '\n') == 0 && sz != 0)
 	{
-		sz = read(fd, *buffer, BUFFER_SIZE);
+		sz = read(fd, *buffer, size_bf);
 		if (sz <= -1)
 		{
 			free(*buffer);
@@ -95,20 +94,20 @@ char	*get_next_line(int fd)
 	char		*buffer;
 	static char	*svr;
 	char		*line;
-	int BUFFER_SIZE = 1;
+	int			size_bf;
 
+	size_bf = 1;
 	line = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || size_bf <= 0)
 		return (NULL);
-	buffer = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
+	buffer = ft_calloc(sizeof(char), size_bf + 1);
 	if (!buffer)
 		return (NULL);
 	if (!svr)
 		svr = ft_substr(buffer, 0, found_nl(buffer, '\0'));
-	svr = handler_line(&svr, &buffer, fd, BUFFER_SIZE);
+	svr = handler_line(&svr, &buffer, fd, size_bf);
 	if (!svr)
 		return (NULL);
 	free(buffer);
 	return (heandler_next_line(&svr, line));
 }
-

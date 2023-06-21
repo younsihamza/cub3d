@@ -1,553 +1,91 @@
-#include "get_next_line.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/21 20:12:44 by hyounsi           #+#    #+#             */
+/*   Updated: 2023/06/21 21:42:24 by hyounsi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void check_file_name(char *map_name)
+#include "cub3d.h"
+
+
+void	init_angle_p(t_vars *vars)
 {
-	int len;
-	char *extension;
-	int i;
+	t_var	v;
 
-	extension = ".cub";
-	i = 3;
-	len = ft_strlen(map_name);
-	while (0 <= len-- && i >= 0)
+	v.i = 0;
+	while (vars->store_map[v.i])
 	{
-		if (extension[i] != map_name[len])
+		v.j = 0;
+		while (vars->store_map[v.i][v.j])
 		{
-			write(2, "ERROR : your file exstension not valide\n", 41);
-			exit(0);
+			if (ft_strchr("NSWE", vars->store_map[v.i][v.j]) != NULL)
+			{
+				vars->player_x = (int)(v.j * vars->size + vars->size / 2);
+				vars->player_y = (int)(v.i * vars->size + vars->size / 2);
+				if (vars->store_map[v.i][v.j] == 'N')
+					vars->deriction = (3 * M_PI) / 2;
+				else if (vars->store_map[v.i][v.j] == 'S')
+					vars->deriction = (M_PI) / 2;
+				else if (vars->store_map[v.i][v.j] == 'E')
+					vars->deriction = 0;
+				else if (vars->store_map[v.i][v.j] == 'W')
+					vars->deriction = M_PI;
+			}
+			v.j++;
 		}
-		i--;
+		v.i++;
 	}
 }
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void	help(t_vars *vars)
 {
-	char	*dst;
+	int	i;
 
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
-
-
-int check_pixel(t_vars *vars, double sin_value ,double cos_value)
-{
-	double i = -2;
-	double j;
-	while (i < 2)
+	i = 0;
+	if (vars->texture)
 	{
-		j = -2;
-		while (j < 2)
+		while (vars->texture[i])
 		{
-				if ((int)(vars->y_now + i + sin_value )/(vars->size) < 0 ||(int)(vars->y_now + i + sin_value )/(vars->size) > vars->len_v || (int)((vars->x_now + j + cos_value) / (vars->size )) < 0 || (int)((vars->x_now + j + cos_value) / (vars->size ))> vars->len_h ||vars->store_map[(int)(vars->y_now + i + sin_value ) / (vars->size)][(int)((vars->x_now + j + cos_value) / (vars->size ))] == '1')
-					return (-1);
-			j += 1;
+			free2d(vars->texture[i]);
+			free(vars->texture[i]);
+			i++;
 		}
-		i += 1;
+		free(vars->texture);
 	}
-	return (0);
-}
-
-
-int key_hook(int key, t_vars *vars)
-{
-	double PI = 3.141592653589793238462203383279502884197;
-	if(key == 53)
+	init_angle_p(vars);
+	if (init_image(vars) == -1)
+	{
+		if (vars->store_map)
+		{
+			free2d(vars->store_map);
+			free(vars->store_map);
+		}
 		exit(0);
-	if ((key == 126) && check_pixel(vars,sin(vars->deriction) * vars->speed,cos(vars->deriction) *vars->speed) == 0)
-		vars->f_up = 1;
-	 if ( key == 124)
-		vars->f_right = 1;
-	if ( key == 123)
-		vars->f_left = 1;
-	if ((key == 125) && check_pixel(vars, -sin(vars->deriction) * vars->speed,-cos(vars->deriction) * vars->speed) == 0)
-		vars->f_down = 1;
-	if (((key == 13 ) ) && check_pixel(vars, sin(vars->deriction) * vars->speed,cos(vars->deriction) * vars->speed) == 0 )
-		vars->up = 1;
-	if ((key == 2  ) && check_pixel(vars, sin(vars->deriction+(PI/2)) * vars->speed,cos(vars->deriction+(PI/2)) * vars->speed) == 0)
-		vars->right = 1;
-	if ((key == 0 ) && check_pixel(vars, sin(vars->deriction-(PI/2)) * vars->speed,cos(vars->deriction-(PI/2)) * vars->speed) == 0)
-		vars->left = 1;
-	if (((key == 1 )) && check_pixel(vars, -sin(vars->deriction) * vars->speed,-cos(vars->deriction) * vars->speed) == 0)
-		vars->down = 1;
-	return (0);
-}
-
-
-int create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
-
-void ber_c(t_vars *vars, double xi, double yi, double xf, double yf)
-{
-	double dy;
-	double dx;
-	double x;
-	double y;
-	int i = 1;
-	double s = 0;
-	double Xinc;
-	double Yinc;
-	x = xi;
-	y = yi;
-
-	dy = yf - yi;
-	dx = xf - xi;
-	if (abs((int)dx) > abs((int)dy))
-		s = abs((int)dx);
-	else
-		s = abs((int)dy);
-	Xinc = dx / s;
-	Yinc = dy / s;
-	while (i <= s)
-	{
-		if(y < 0 || y >= vars->height_window )
-			y = 0;
-		my_mlx_pixel_put(&vars->main_image,x,y,create_trgb(0, 135, 206, 235));
-		x += Xinc;
-		y += Yinc;
-		i++;
 	}
 }
 
-void ber_floor(t_vars *vars, double xi, double yi, double xf, double yf)
+int	main(int argc, char **argv)
 {
-	double dy;
-	double dx;
-	double x;
-	double y;
-	int i = 1;
-	double s = 0;
-	double Xinc;
-	double Yinc;
-	x = xi;
-	y = yi;
+	int		i;
+	t_vars	vars;
 
-	dy = yf - yi;
-	dx = xf - xi;
-	if (abs((int)dx) > abs((int)dy))
-		s = abs((int)dx);
-	else
-		s = abs((int)dy);
-	Xinc = dx / s;
-	Yinc = dy / s;
-	while (i <= s)
-	{
-		if(y < 0 || y >= vars->height_window)
-			y = 0;
-		my_mlx_pixel_put(&vars->main_image,x,y,create_trgb(0, 218, 160, 109));
-		x += Xinc;
-		y += Yinc;
-		i++;
-	}
-}
-
-void ber(t_vars *vars, int xi, int yi, int xf, int yf,int  offset_x,t_data *image)
-{
-	double dy;
-	double dx;
-	double x;
-	double y;
-	int i = 1;
-	double s = 0;
-	double Xinc;
-	double Yinc;
-	int color;
-	x = xi;
-	y = yi;
-
-	dy = yf - yi;
-	dx = xf - xi;
-	if (abs((int)dx) > abs((int)dy))
-		s = abs((int)dx);
-	else
-		s = abs((int)dy);
-	Xinc = dx / s;
-	Yinc = dy / s;
-	while (i <= s)
-	{
-	char *d = NULL;
-		if( y < 0 || y >= vars->height_window)
-			y = 0;
-		//printf("%f   %f\n",y,x);
-		int offset_y = abs((int)(y -  yi)) *( (double)image->height/(yf - yi));
-		d = (image->addr + ((int)offset_y * image->line_length) + (offset_x*(int)(image->bits_per_pixel/8)));
-		color = *(unsigned int*)d;
-		my_mlx_pixel_put(&vars->main_image,(int)x,(int)y,color);
-		x += Xinc;
-		y += Yinc;
-		i++;
-	}
-}
-
-void check_hor(t_vars *vars, double angle)
-{
-	double yn;
-	double xn;
-	double xstep = 0;
-	double ystep = 0;
-	int offset = 0;
-	yn = (int)(vars->y_now / (vars->size)) * (vars->size) + (vars->size);
-	if (sin(angle) < 0)
-		yn = (int)(vars->y_now / (vars->size)) * (vars->size);
-	xn = -(vars->y_now - yn) / tan(angle) + vars->x_now;
-	vars->plane_x_h = xn;
-	vars->plane_y_h  = yn;
-	ystep = vars->size;
-	if (sin(angle) < 0)
-	{
-		ystep = -vars->size;
-		offset = -1;
-	}
-	xstep = ystep / tan(angle);
-	while ((vars->plane_y_h + offset) / vars->size > 0 && (vars->plane_y_h + offset) / vars->size  < vars->len_v  && vars->plane_x_h / vars->size > 0 && ft_strlen(vars->store_map[(int)(vars->plane_y_h  + offset) / vars->size]) > vars->plane_x_h / vars->size && vars->store_map[(int)(vars->plane_y_h  +offset) / vars->size][(int)(vars->plane_x_h) / vars->size] != '1')
-	{
-		vars->plane_x_h += xstep;
-		vars->plane_y_h += ystep;
-	}
-
-	 vars->plane_des_h = (vars->plane_y_h - vars->y_now) / sin(angle);
-}
-int kk(int key ,t_vars *vars)
-{
-	if(key == 13)
-		vars->up = 0;
-	else if(key == 2)
-		vars->right = 0;
-	else if(key == 0)
-		vars->left = 0;
-	else if(key == 1)
-		vars->down = 0;
-	else if(key == 126)
-		vars->f_up = 0;
-	else if(key == 124)
-		vars->f_right = 0;
-	else if(key == 123)
-		vars->f_left = 0;
-	else if(key == 125)
-		vars->f_down = 0;	
-	return(0);
-}
-void check_vertical(t_vars *vars, double angle)
-{
-	double yn;
-	double xn;
-	double xstep = 0;
-	double ystep = 0;
-	int offset = 1;
-	xn = (int)(vars->x_now / (vars->size)) * (vars->size);
-	if (cos(angle) > 0)
-		xn = (int)(vars->x_now / (vars->size )) * (vars->size) + (vars->size);
-	yn = vars->y_now - tan(angle) * (vars->x_now - xn);
-	vars->plane_x_v = xn;
-	vars->plane_y_v = yn;
-	xstep = (vars->size );
-	if (cos(angle) < 0)
-	{
-		xstep = -(vars->size );
-		offset = -1;
-	}
-	ystep = tan(angle) * xstep;
-	while (vars->plane_y_v / vars->size >= 0 && (int)(vars->plane_y_v / vars->size) < vars->len_v && vars->plane_x_v / vars->size >= 0 && ft_strlen(vars->store_map[(int)vars->plane_y_v / vars->size]) >= vars->plane_x_v / vars->size && vars->store_map[(int)(vars->plane_y_v) / vars->size][(int)(vars->plane_x_v + offset) / vars->size] != '1')
-	{
-		vars->plane_x_v += xstep;
-		vars->plane_y_v += ystep;
-	}
-	vars->plane_des_v = (vars->plane_y_v - vars->y_now) / sin(angle);
-}
-void minimap(t_vars *vars)
-{
-		int i ;
-		int j;
-		i = 0;
-		j = 0;
-		while(i < 200)
-		{
-			j = 0;
-			while(j < 200)
-			{
-				my_mlx_pixel_put(&vars->minimap,i,j,99541);
-				j++;
-			}
-			i++;
-		}
-		i = -100;	
-		while(i < 100)
-		{
-			j = -100;
-			if((i + (vars->y_now)) >= 0 && (i + (vars->y_now)) <= vars->size * vars->len_v-vars->size)
-			{
-			while( j < 100)
-			{
-				if((j + vars->x_now) >= 0 && (j + vars->x_now) <= vars->size * vars->len_h-vars->size)
-				{
-
-					char *buf;
-					buf  =  (vars->two_d_image.addr + (int)((int)(i +vars->y_now) * vars->two_d_image.line_length) + (int)((int)(j + vars->x_now)* (vars->two_d_image.bits_per_pixel/8)));
-					my_mlx_pixel_put(&vars->minimap,j+100 ,i+100 ,*(unsigned int *)buf);
-				}
-				j++;
-			}
-			}
-			
-			i++;
-		}
-}
-int ft_draw(t_vars *vars)
-{
-	int i = 0;
-	int j = 0;
-	int x = 0;
-	int y = 0;
-	double PI = 3.141592653589793238462203383279502884197;
-	mlx_clear_window(vars->mlx, vars->mlx_win);
-	vars->main_image.img = mlx_new_image(vars->mlx,vars->width_window,vars->height_window);
-	vars->main_image.addr = mlx_get_data_addr(vars->main_image.img, &vars->main_image.bits_per_pixel, &vars->main_image.line_length,&vars->main_image.endian);
-	vars->two_d_image.img = mlx_new_image(vars->mlx,vars->size*vars->len_h,vars->size*vars->len_v);
-	vars->two_d_image.addr = mlx_get_data_addr(vars->two_d_image.img, &vars->two_d_image.bits_per_pixel, &vars->two_d_image.line_length,&vars->two_d_image.endian);
-	vars->minimap.img = mlx_new_image(vars->mlx,200,200);
-	vars->minimap.addr = mlx_get_data_addr(vars->minimap.img, &vars->minimap.bits_per_pixel, &vars->minimap.line_length,&vars->minimap.endian);
-	
-	while (vars->store_map[i] != NULL)
-	{
-		
-		j = 0;
-		while (vars->store_map[i][j])
-		{
-			x = 0;
-			y = 0;
-			if(vars->store_map[i][j] == '1')
-			{
-				
-				while(x < vars->size)
-				{
-					y = 0;
-					while(y < vars->size)
-					{
-						my_mlx_pixel_put(&vars->two_d_image,j*vars->size+y,i*vars->size+x,16711680);
-						y++;
-					}
-					x++;
-				}
-			}
-			if (j == (int)vars->x_now / (vars->size) && i == (int)vars->y_now /  (vars->size) )
-			{
-				x = -2;
-				int f = 0;
-				while(x < 2)
-				{
-					y = -2;
-					while(y < 2)
-					{
-						my_mlx_pixel_put(&vars->two_d_image,(vars->x_now / (vars->size))*vars->size+y,(vars->y_now / (vars->size))*vars->size+x,978464);
-						y++;
-					}
-					while(f < 10)
-					{
-						my_mlx_pixel_put(&vars->two_d_image,(vars->x_now / (vars->size))*vars->size + f*cos(vars->deriction),(vars->y_now / (vars->size))*vars->size+f*sin(vars->deriction),978464);
-						f++;
-					}
-					x++;
-				}
-				int offset;
-				int r = 0;
-				r = 0;
-				 double p_d = ((vars->width_window)/2)/tan(30*(PI/180));
-				 double angle = -30;
-				double pas = 60.0/vars->width_window;
-				
-				while (r < (vars->width_window) )
-				{
-					check_hor(vars, vars->deriction + angle*(PI/180));
-					check_vertical(vars, vars->deriction + angle*(PI/180));
-					if (vars->plane_des_h >= vars->plane_des_v)
-					{
-						vars->plane_des_v = vars->plane_des_v*cos(angle*(PI/180));
-						vars->plane_height = ((vars->size)/vars->plane_des_v)*p_d;
-						if(cos(vars->deriction + angle*(PI/180)) < 0)
-						{
-							offset = (int)((1-(fmod(vars->plane_y_v,vars->size) / vars->size)) * vars->w_image.width);
-					  		ber(vars,r,((vars->height_window)/2 - (vars->plane_height)/2) ,r,(vars->height_window)/2 + (vars->plane_height)/2,offset,&vars->w_image);
-						}
-						else
-						{
-							offset = (int)((( fmod(vars->plane_y_v,vars->size)) / vars->size) * vars->e_image.width);
-							ber(vars,r,((vars->height_window)/2 - (vars->plane_height)/2) ,r,(vars->height_window)/2 + (vars->plane_height)/2, offset,&vars->e_image);
-						}
-					}
-					else
-					{
-						vars->plane_des_h = vars->plane_des_h * cos(angle*(PI/180));
-						vars->plane_height = (vars->size/vars->plane_des_h)*p_d;
-						if(sin(vars->deriction + angle*(PI/180)) < 0)
-						{
-							offset = (int)((fmod(vars->plane_x_h,vars->size)/vars->size) * vars->n_image.width)  ;
-					  		ber(vars,r,((vars->height_window)/2 - (vars->plane_height)/2) ,r,(vars->height_window)/2 + (vars->plane_height)/2, offset,&vars->n_image);
-						}
-						else
-						{      
-							offset = (int)((1 - (fmod(vars->plane_x_h,vars->size)/vars->size))*vars->s_image.width);
-							ber(vars,r,((vars->height_window)/2 - (vars->plane_height)/2) ,r,(vars->height_window)/2 + (vars->plane_height)/2, offset,&vars->s_image);
-						}
-					}
-
-					ber_c(vars,r,0 ,r,(vars->height_window)/2 - (vars->plane_height)/2);
-					ber_floor(vars,r,(vars->height_window)/2 + (vars->plane_height)/2 ,r,vars->height_window);
-					angle += pas;
-					  r++;
-				}
-			}
-			j++;
-		}
-		i++;
-	}
-	int v = 0;
-	while(v < 150)
-	{
-		my_mlx_pixel_put(&vars->main_image,v,0,465464);
-		my_mlx_pixel_put(&vars->main_image,0,v,465464);
-		my_mlx_pixel_put(&vars->main_image,v,150,465464);
-		my_mlx_pixel_put(&vars->main_image,150,v,465464);
-		v++;
-	}
-	minimap(vars);
-	mlx_put_image_to_window(vars->mlx,vars->mlx_win,vars->main_image.img,0,0);
-	//mlx_put_image_to_window(vars->mlx,vars->mlx_win,vars->two_d_image.img,0,0);
-	mlx_put_image_to_window(vars->mlx,vars->mlx_win,vars->minimap.img,0,0);
-	mlx_put_image_to_window(vars->mlx,vars->mlx_win,vars->weapen.img,vars->width_window /2- 20,vars->height_window/2 - 20);
-	mlx_destroy_image(vars->mlx,vars->main_image.img);
-	mlx_destroy_image(vars->mlx,vars->two_d_image.img);
-	//mlx_destroy_image(vars->mlx,vars->minimap.img);
-	
-	return (0);
-}
-
-
-int move (t_vars *vars)
-{
-	double PI = 3.141592653589793238462203383279502884197;
-	if (( vars->up == 1) && check_pixel(vars, sin(vars->deriction) * vars->speed,cos(vars->deriction) * vars->speed) == 0 )
-	{
-		//vars->up = 1;
-		vars->x_now += cos(vars->deriction) * vars->speed;
-		vars->y_now += sin(vars->deriction) * vars->speed;
-	}
-	if (( vars->right == 1) && check_pixel(vars, sin(vars->deriction+(PI/2)) * vars->speed,cos(vars->deriction+(PI/2)) * vars->speed) == 0)
-	 {
-		//ars->right = 1;
-		vars->x_now += cos(vars->deriction+(PI/2)) * vars->speed;
-		vars->y_now += sin(vars->deriction+(PI/2)) * vars->speed;
-	 }
-	if ((vars->left == 1) && check_pixel(vars, sin(vars->deriction-(PI/2)) * vars->speed,cos(vars->deriction-(PI/2)) * vars->speed) == 0)
-	{
-		//vars->left = 1;
-		vars->x_now += cos(vars->deriction-(PI/2)) * vars->speed;
-		vars->y_now += sin(vars->deriction-(PI/2)) * vars->speed;
-	}
-	if (( vars->down == 1) && check_pixel(vars, -sin(vars->deriction) * vars->speed,-cos(vars->deriction) * vars->speed) == 0)
-	{
-		//vars->down = 1;
-		
-		vars->x_now -= cos(vars->deriction) * vars->speed;
-		vars->y_now -= sin(vars->deriction) * vars->speed;
-	}
-		if ((vars->f_up == 1) && check_pixel(vars,sin(vars->deriction) * vars->speed,cos(vars->deriction) *vars->speed) == 0)
-	{
-		vars->x_now += cos(vars->deriction) * vars->speed;
-		vars->y_now += sin(vars->deriction) * vars->speed;
-	}
-	 if ( vars->f_right == 1)
-	 {
-		vars->deriction += 0.05;
-	 }
-	if ( vars->f_left == 1)
-	{
-		vars->deriction -= 0.05;
-	}
-	if ((vars->f_down == 1) && check_pixel(vars, -sin(vars->deriction) * vars->speed,-cos(vars->deriction) * vars->speed) == 0)
-	{
-		vars->x_now -= cos(vars->deriction) * vars->speed;
-		vars->y_now -= sin(vars->deriction) * vars->speed;
-	}
-		ft_draw(vars);
-	return 0;
-}
-int red_cross()
-{
-	exit(0);
-
-}
-int main(int argc, char **argv)
-{
-	double PI = 3.141592653589793238462203383279502884197;
-	t_vars vars;
-	vars.map =0;
-	vars.store_map = NULL;
-	vars.texture = NULL;
-	vars.mlx = NULL;
-	vars.mlx_win = NULL;
-	vars.left = 0;
-	vars.right = 0;
-	vars.down = 0;
-	vars.up = 0;
-	vars.f_left = 0;
-	vars.f_right = 0;
-	vars.f_down = 0;
-	vars.f_up = 0;
-
+	i = 0;
+	init_var(&vars);
 	if (argc != 2)
 		return (write(2, "ERROR :you must enter one argument\n", 35));
 	check_file_name(argv[1]);
-	vars.map_fd = open(argv[1], O_RDONLY);
-	if (vars.map_fd == -1)
-		return (write(2, "ERROR : file did not open \n", 28));
-	if (parcer_map(&vars) == 0)
-		return 0;
-	vars.mlx = mlx_init();
-	vars.size = 10;
-	vars.width_window =1280;
-	vars.height_window = 720;
-	vars.speed = 3;
-	vars.mlx_win = mlx_new_window(vars.mlx,vars.width_window ,vars.height_window, "dd");
-	int i = 0;
-	int j = 0;
-	while (vars.store_map[i])
-	{
-		j = 0;
-		while (vars.store_map[i][j])
-		{
-			if (ft_strchr("NSWE",vars.store_map[i][j]) != NULL)
-			{
-				vars.x_now = (int)(j * vars.size + vars.size/2);
-				vars.y_now = (int)(i * vars.size + vars.size/2);
-				if(vars.store_map[i][j] == 'N')
-					vars.deriction = (3*PI)/2;
-				else if(vars.store_map[i][j] == 'S')
-					vars.deriction = (PI)/2;
-				else if(vars.store_map[i][j] == 'E')
-					vars.deriction = 0;
-				else if(vars.store_map[i][j] == 'W')
-					vars.deriction = PI;
-			}
-			j++;
-		}
-		i++;
-	}
-	vars.n_image.img = mlx_xpm_file_to_image(vars.mlx,"a.xpm",&vars.n_image.width,&vars.n_image.height);
-	vars.e_image.img = mlx_xpm_file_to_image(vars.mlx,"a.xpm",&vars.e_image.width,&vars.e_image.height);
-	vars.w_image.img = mlx_xpm_file_to_image(vars.mlx,"a.xpm",&vars.w_image.width,&vars.w_image.height);
-	vars.s_image.img = mlx_xpm_file_to_image(vars.mlx,"a.xpm",&vars.s_image.width,&vars.s_image.height);
-	vars.weapen.img = mlx_xpm_file_to_image(vars.mlx,"1.xpm",&vars.weapen.width,&vars.weapen.height);
-
-	vars.n_image.addr = mlx_get_data_addr(vars.n_image.img, &vars.n_image.bits_per_pixel, &vars.n_image.line_length,&vars.n_image.endian);
-	vars.e_image.addr = mlx_get_data_addr(vars.e_image.img, &vars.e_image.bits_per_pixel, &vars.e_image.line_length,&vars.e_image.endian);
-	vars.w_image.addr = mlx_get_data_addr(vars.w_image.img, &vars.w_image.bits_per_pixel, &vars.w_image.line_length,&vars.w_image.endian);
-	vars.s_image.addr = mlx_get_data_addr(vars.s_image.img, &vars.s_image.bits_per_pixel, &vars.s_image.line_length,&vars.s_image.endian);
-
-	mlx_loop_hook(vars.mlx,move,&vars);
+	if (parcer_map(&vars, argv[1]) == 0)
+		help_exit(&vars);
+	help(&vars);
+	mlx_loop_hook(vars.mlx, move, &vars);
 	ft_draw(&vars);
-	mlx_hook(vars.mlx_win, 2,1L<<0, key_hook, &vars);
-	mlx_hook(vars.mlx_win, 3,1L<<1, kk, &vars);
-	mlx_hook(vars.mlx_win, 17,1L<<17, red_cross, &vars);
+	mlx_hook(vars.mlx_win, 2, 1L << 0, key_hook, &vars);
+	mlx_hook(vars.mlx_win, 3, 1L << 1, kk, &vars);
+	mlx_hook(vars.mlx_win, 17, 1L << 17, red_cross, &vars);
 	mlx_loop(vars.mlx);
 }

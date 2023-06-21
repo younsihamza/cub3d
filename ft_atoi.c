@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/21 21:50:15 by hyounsi           #+#    #+#             */
+/*   Updated: 2023/06/21 21:51:04 by hyounsi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "cub3d.h"
 
 int	handlermax(char *str, int i, int sign, int res)
 {
@@ -38,6 +49,8 @@ int	ft_atoi(const char *nptr)
 	char	*ptr;
 
 	i = 0;
+	if (!nptr)
+		return (-1);
 	sign = 1;
 	res = 0;
 	ptr = (char *)nptr;

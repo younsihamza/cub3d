@@ -1,4 +1,4 @@
-#include "get_next_line.h"
+#include "cub3d.h"
 
 size_t	ft_strlen(char const *p)
 {
@@ -29,9 +29,9 @@ int ft_strcmp(char *str1, char *str2)
     int i;
 
     i = 0;
-    while((str1 || str2) && str1 == str2)
+    while((str1[i] || str2[i]) && str1[i] == str2[i])
         i++;
-    return(str1 - str2);
+    return(str1[i] - str2[i]);
 }
 
 
@@ -97,4 +97,24 @@ size_t	ft_strlens(char *p, char a)
 	while (*(p + i) != a && *(p + i))
 		i++;
 	return (i);
+}
+
+char	*ft_strdup(const char *s)
+{
+	int		i;
+	int		s_len ;
+	char	*p;
+
+	i = 0;
+	s_len = ft_strlen(s);
+	p = malloc(sizeof(char) * s_len + 1);
+	if (!p)
+		exit (0);
+	while (*(s + i))
+	{
+		*(p + i) = *(s + i);
+		i++;
+	}
+	*(p + i) = '\0';
+	return (p);
 }

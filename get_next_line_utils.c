@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ichouare <ichouare@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 10:13:11 by ichouare          #+#    #+#             */
-/*   Updated: 2023/05/29 15:40:23 by ichouare         ###   ########.fr       */
+/*   Updated: 2023/06/21 21:45:46 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-
+#include "cub3d.h"
 
 size_t	found_nl(const char *str, int c)
 {

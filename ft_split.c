@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/21 21:46:51 by hyounsi           #+#    #+#             */
+/*   Updated: 2023/06/21 21:46:52 by hyounsi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "cub3d.h"
 
 static int	num_of_words(char const *s, char c)
 {
@@ -98,13 +109,9 @@ static char	**ft_remplir(char **arr, char const *s, int c)
 
 char	**ft_split(char const *s, char c)
 {
-	int		i;
-	int		j;
 	int		k;
 	char	**arr;
 
-	i = 0;
-	j = 0;
 	k = 0;
 	if (!s)
 		return (NULL);
