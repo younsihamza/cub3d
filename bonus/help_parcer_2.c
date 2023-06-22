@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:50:46 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/21 17:50:47 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/22 23:57:24 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	parcer_two(t_vars *vs, t_var *v)
 					free2d(v->color);
 					free(v->color);
 				}
-				puts("ERROR: not valid texture");
+				write(2 , "ERROR: not valid texture\n", 26);
 				return (-1);
 			}
 			vs->texture[v->i] = v->color;
@@ -134,14 +134,14 @@ int	parcer_four(t_vars *vs, t_var *v)
 			v->j++;
 		else
 		{
-			printf("vs->texture not available");
+			write(2, "vs->texture not available\n", 27);
 			return (-1);
 		}
 		v->i++;
 	}
 	if (v->j != 6)
 	{
-		perror("vs->texture don't  respect the rules");
+		write(2, "vs->texture don't  respect the rules\n",2);
 		return (-1);
 	}
 	return (0);

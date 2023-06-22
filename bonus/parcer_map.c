@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 14:36:04 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/22 13:52:21 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/22 23:53:51 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	check_dup_texture(t_vars *vs, t_var *v)
 		{
 			if (ft_strcmp(vs->texture[v->k][0], vs->texture[v->i][0]) == 0)
 			{
-				printf("vs->texture duplicated");
+				write(2, "vs->texture duplicated\n", 24);
 				return (-1);
 			}
 			v->k++;
@@ -69,7 +69,7 @@ int	check_color_err(t_var *v)
 				free2d(v->color);
 				free(v->color);
 			}
-			printf("color not acceptable");
+			write(2,"color not acceptable\n", 22);
 			return (-1);
 		}
 		v->j++;
