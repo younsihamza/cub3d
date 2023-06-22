@@ -6,13 +6,13 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:44:59 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/22 17:12:37 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/22 23:42:04 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ckeck_top(char **map)
+void	check_top(char **map)
 {
 	int	*table_top;
 	int	i;
@@ -41,6 +41,7 @@ void	check_map(char **map)
 	int	*table_left;
 	int	i;
 
+	check_top(map);
 	table_left = ft_calloc(sizeof(int), ft_strlen2d(map) + 1);
 	i = 0;
 	while (i < max_len2d(map))
@@ -95,7 +96,10 @@ int	check_01(char **map)
 	help_check_01(map, &v);
 	if (v.number_of_zero < 1 || v.number_of_one < 1
 		|| v.len_p != 1 || v.not_val != 0)
+	{
+		write(2, "ERROE : map not valide\n", 23);
 		return (-1);
+	}
 	return (0);
 }
 

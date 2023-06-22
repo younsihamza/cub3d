@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:42:31 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/22 17:13:24 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/22 23:43:48 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	init_var(t_vars *vars)
 	vars->f_right = 0;
 	vars->f_down = 0;
 	vars->f_up = 0;
-	vars->mlx = mlx_init();
 	vars->size = 10;
 	vars->width_window = 1280;
 	vars->height_window = 720;
@@ -91,8 +90,6 @@ void	init_var(t_vars *vars)
 	vars->xf = 0;
 	vars->yf = 0;
 	vars->yi = 0;
-	vars->mlx_win = mlx_new_window(vars->mlx, vars->width_window,
-			vars->height_window, "cub3d");
 }
 
 void	help_exit(t_vars *vars)

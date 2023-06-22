@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 20:12:44 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/22 22:31:08 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/22 23:44:25 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@ int	main(int argc, char **argv)
 	check_file_name(argv[1]);
 	if (parcer_map(&vars, argv[1]) == 0)
 		help_exit(&vars);
+	vars.mlx = mlx_init();
+	vars.mlx_win = mlx_new_window(vars.mlx, vars.width_window,
+			vars.height_window, "cub3d");
 	take_image(&vars);
 	help(&vars);
 	mlx_hook(vars.mlx_win, 2, 1L << 0, key_hook, &vars);
