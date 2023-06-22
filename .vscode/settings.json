@@ -1,7 +1,9 @@
 {
   "files.associations": {
     "ios": "c",
-    "__node_handle": "c"
+    "__node_handle": "c",
+    "algorithm": "c"
+    
   },
   "C_Cpp_Runner.cCompilerPath": "clang",
   "C_Cpp_Runner.cppCompilerPath": "clang++",
@@ -10,6 +12,7 @@
   "C_Cpp_Runner.cppStandard": "",
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.useMsvc": false,
+  "editor.defaultFormatter": "keyhr.42-c-format",
   "C_Cpp_Runner.warnings": [
     "-Wall",
     "-Wextra",
@@ -38,5 +41,8 @@
     "**/.vscode/**"
   ],
   "C_Cpp_Runner.useAddressSanitizer": false,
-  "C_Cpp_Runner.showCompilationTime": false
+  "C_Cpp_Runner.showCompilationTime": false,
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  }
 }
