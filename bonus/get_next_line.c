@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 10:13:14 by ichouare          #+#    #+#             */
-/*   Updated: 2023/06/21 21:50:03 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/23 18:40:35 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*ft_calloc(size_t number, size_t size)
 	arr = NULL;
 	arr = (void *)malloc(size * number);
 	if (!arr)
-		return (NULL);
+		exit (0);
 	ft_bzero(arr, size * number);
 	return (arr);
 }

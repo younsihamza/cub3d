@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 20:12:44 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/22 23:44:25 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/23 19:02:08 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,13 @@ void	help(t_vars *vars)
 		exit(0);
 	}
 }
-
+void test()
+{
+	system("leaks cub3d");
+}
 int	main(int argc, char **argv)
 {
+	atexit(test);
 	int		i;
 	t_vars	vars;
 

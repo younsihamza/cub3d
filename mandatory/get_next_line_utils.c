@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 10:13:11 by ichouare          #+#    #+#             */
-/*   Updated: 2023/06/21 21:45:46 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/23 19:13:06 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*ft_strjoin(char *s1, char const *s2)
 	str = (char *)malloc(sizeof(char) * (found_nl(s1, '\0')
 				+ found_nl(s2, '\0') + 1));
 	if (!str)
-		return (NULL);
+		exit (0);
 	return (strimplement(str, s1, s2));
 }
 
@@ -79,7 +79,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		size = found_nl(s, '\0') - start;
 	arr = (char *)(malloc(sizeof(char) * (size + 1)));
 	if (!arr)
-		return (NULL);
+		exit (0);
 	while (size--)
 	{
 		*(arr + i) = *(s + start + i);

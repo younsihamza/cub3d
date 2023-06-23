@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 13:36:15 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/22 22:30:39 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/23 18:55:37 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ typedef struct vars
 	int		pas;
 	int		scop;
 	int		n;
-	int 	position;
+	int		position;
 	int		fire;
 	int		move_p;
 }			t_vars;
@@ -151,6 +151,8 @@ int			ft_strlen2d(char **s1);
 void		ft_bzero(void *s, size_t n);
 char		**ft_join2d(char **env, char *var);
 char		*ft_itoa(int n);
+void		help_move_sprite(t_vars *vars);
+void		sprite_move(t_vars *vars);
 int			ft_draw(t_vars *vars);
 size_t		ft_strlens(char *p, char a);
 void		free2d(char **str);
@@ -165,7 +167,7 @@ int			parcer_three(t_vars *vs, t_var *v);
 int			parcer_four(t_vars *vs, t_var *v);
 void		ckeck_top(char **map);
 void		check_map(char **map);
-void		check_aim_image();
+void		check_aim_image(void);
 void		take_image(t_vars *vars);
 void		help_check_01(char **map, t_var *v);
 int			check_01(char **map);

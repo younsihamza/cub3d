@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:34:12 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/22 22:37:38 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/23 18:58:52 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,19 @@ void	help_key_hook(int key, t_vars *vars)
 		mlx_destroy_window(vars->mlx, vars->mlx_win);
 		exit(0);
 	}
-	if(key == 16)
+	if (key == 16)
 		vars->scop = 1;
-	if(key == 3)
+	else if (key == 3)
 		vars->fire = 1;
-	if (key == 126)
+	else if (key == 126)
 		vars->f_up = 1;
-	if (key == 124)
+	else if (key == 124)
 		vars->f_right = 1;
-	if (key == 123)
+	else if (key == 123)
 		vars->f_left = 1;
-	if (key == 125)
+	else if (key == 125)
 		vars->f_down = 1;
-	if (key == 13)
+	else if (key == 13)
 		vars->up = 1;
 	vars->move_p++;
 }

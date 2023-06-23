@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:44:59 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/22 23:42:04 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/23 20:00:50 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	help_check_01(char **map, t_var *v)
 					map[v->i][v->j] == 'S' || map[v->i][v->j] == 'E'
 					|| map[v->i][v->j] == 'W')
 				v->len_p++;
-			else if (ft_strchr(" 01NESW\n", map[v->i][v->j]) == NULL)
+			else if (ft_strchr(" 01NESWP\n", map[v->i][v->j]) == NULL)
 				v->not_val++;
 			v->j++;
 		}

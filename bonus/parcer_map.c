@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 14:36:04 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/22 23:53:51 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/23 18:59:39 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	check_color_err(t_var *v)
 				free2d(v->color);
 				free(v->color);
 			}
-			write(2,"color not acceptable\n", 22);
+			write(2, "color not acceptable\n", 22);
 			return (-1);
 		}
 		v->j++;

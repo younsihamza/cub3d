@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:36:13 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/22 22:10:21 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/23 18:59:09 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	kk(int key, t_vars *vars)
 		vars->f_left = 0;
 	else if (key == 125)
 		vars->f_down = 0;
-	else if(key == 3)
+	else if (key == 3)
 		vars->fire = 0;
 	return (0);
 }

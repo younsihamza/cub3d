@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:42:31 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/22 23:43:48 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/23 19:04:52 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int	init_help_image(t_vars *vars)
 
 int	init_image(t_vars *vars)
 {
-	init_help_image(vars);
+	if( init_help_image(vars) == -1)
+		return(-1);
 	vars->n_image.addr = mlx_get_data_addr(vars->n_image.img,
 			&vars->n_image.bits_per_pixel, &vars->n_image.line_length,
 			&vars->n_image.endian);

@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:41:07 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/22 22:41:07 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/23 18:52:12 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,43 +113,7 @@ void	help_move(t_vars *vars)
 		vars->player_y += sin(vars->deriction - (M_PI / 2)) * vars->speed;
 	}
 }
-void  sprite_move(t_vars *vars)
-{
-	if (vars->fire == 1)
-	{
-		while(vars->n < 9)
-		{
-			mlx_put_image_to_window(vars->mlx,vars->mlx_win,vars->iam[vars->n],-320,-180);
-			vars->n++;
-		}
-		if(vars->n == 9)
-		{
-			vars->position += 1;
-				mlx_put_image_to_window(vars->mlx,vars->mlx_win,vars->iam[8],-320 ,- 180 + vars->position);
-				mlx_put_image_to_window(vars->mlx,vars->mlx_win,vars->iam[9 + abs(vars->position)%2],vars->width_window/2 -40 ,vars->height_window/2 + vars->position);
-			if(vars->position == 10)
-					vars->position = -10;	
-		}
-	}
-	else if(vars->scop == 1)
-	{
-		while(vars->n < 9)
-			{
-				mlx_put_image_to_window(vars->mlx,vars->mlx_win,vars->iam[vars->n],-320,-180);
-				vars->n++;
-			}
-			if(vars->n == 9)
-					mlx_put_image_to_window(vars->mlx,vars->mlx_win,vars->iam[8],-320 ,- 180 );
-	}
-	else
-	{
-		vars->position = -10;
-		vars->n = 0;
-		if(vars->move_p > 4)
-			vars->move_p = 0;
-		mlx_put_image_to_window(vars->mlx,vars->mlx_win,vars->iam[vars->move_p],-200,-20);
-	}
-}
+
 int	move(t_vars *vars)
 {
 	if (vars->f_right == 1)

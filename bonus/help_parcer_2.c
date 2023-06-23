@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:50:46 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/22 23:57:24 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/23 20:03:59 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	parcer_two(t_vars *vs, t_var *v)
 					free2d(v->color);
 					free(v->color);
 				}
-				write(2 , "ERROR: not valid texture\n", 26);
+				write(2, "ERROR: not valid texture\n", 26);
 				return (-1);
 			}
 			vs->texture[v->i] = v->color;
@@ -66,7 +66,30 @@ int	parcer_two(t_vars *vs, t_var *v)
 	}
 	return (0);
 }
+void check_door(t_vars *vars)
+{
+	t_var v;
 
+	v.i = 0;
+	while(vars->store_map[v.i])
+	{
+		v.j = 0;
+		while(vars->store_map[v.i][v.j])
+		{
+			if(vars->store_map[v.i][v.j] == 'P')
+			{
+				if(!(vars->store_map[v.i][v.j - 1] == '1' && vars->store_map[v.i][v.j + 1] == '1')&&!(vars->store_map[v.i - 1][v.j] == '1' && vars->store_map[v.i + 1][v.j] == '1'))
+				{
+					
+					write(2, "ERROR : MAP NOT VALIDE\n", 24);
+					exit(0);
+				}		
+			}
+			v.j++;
+		}
+		v.i++;
+	}
+}
 int	check_map_err(t_vars *vs, t_var *v)
 {
 	v->i = 0;
@@ -88,6 +111,7 @@ int	check_map_err(t_vars *vs, t_var *v)
 		v->i++;
 	}
 	check_map(vs->store_map);
+	check_door(vs);
 	return (0);
 }
 
@@ -141,7 +165,7 @@ int	parcer_four(t_vars *vs, t_var *v)
 	}
 	if (v->j != 6)
 	{
-		write(2, "vs->texture don't  respect the rules\n",2);
+		write(2, "vs->texture don't  respect the rules\n", 2);
 		return (-1);
 	}
 	return (0);

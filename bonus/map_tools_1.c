@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:45:09 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/21 21:45:10 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/23 20:01:57 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_lenchr(char *s)
 	i = 0;
 	while (s[i])
 	{
-		if (ft_strchr("01NESW", s[i]) != NULL)
+		if (ft_strchr("01NESWP", s[i]) != NULL)
 			len++;
 		i++;
 	}

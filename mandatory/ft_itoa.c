@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/12 11:34:42 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/21 13:05:55 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/23 19:12:50 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*ft_itoa(int n)
 	c = number_of_number(n);
 	arr = malloc(sizeof(char) * c + 1);
 	if (! arr)
-		return (NULL);
+		exit (0);
 	putnb(arr, n, c);
 	return (arr);
 }
