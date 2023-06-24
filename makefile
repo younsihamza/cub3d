@@ -1,34 +1,48 @@
-#!/bin/sh
+
 NAME = cub3D
+
+BONUS = cub3D_BONUS
 
 CC = cc 
 
-FLAG = -Wall -Wextra  -Werror    -Ofast -g -fsanitize=address 
+FLAGA = -Wall -Wextra  -Werror -Ofast
 
-HEADER = ./get_next_line.h
+HEADER = ./mandatory/cub3d.h
+
+HEADER_BONUS = ./bonus_3d/cub3d.h
 
 
-FLAGS = -lmlx -framework OpenGL -framework AppKit 
 
 
-SRCS =   cub3d.c parcer_map.c ft_split.c  get_next_line.c get_next_line_utils.c ft_atoi.c tools.c ft_itoa.c
+SRCS =   ./mandatory/cub3d.c ./mandatory/parcer_map.c ./mandatory/ft_split.c  ./mandatory/get_next_line.c ./mandatory/get_next_line_utils.c ./mandatory/ft_atoi.c ./mandatory/tools.c ./mandatory/ft_itoa.c \
+	  ./mandatory/map_tools.c ./mandatory/map_tools_1.c  ./mandatory/help_parcer_1.c ./mandatory/help_parcer_2.c ./mandatory/help_parcer_3.c ./mandatory/help_1.c ./mandatory/help_2.c ./mandatory/help_3.c \
+	  ./mandatory/help_4.c ./mandatory/help_5.c ./mandatory/tools_1.c \
+
+SRCSB =   ./bonus_3d/cub3d.c ./bonus_3d/parcer_map.c ./bonus_3d/ft_split.c  ./bonus_3d/get_next_line.c ./bonus_3d/get_next_line_utils.c ./bonus_3d/ft_atoi.c ./bonus_3d/tools.c \
+ ./bonus_3d/ft_itoa.c  ./bonus_3d/sprite.c  ./bonus_3d/map_tools.c ./bonus_3d/map_tools_1.c  ./bonus_3d/help_parcer_1.c ./bonus_3d/help_parcer_2.c ./bonus_3d/help_parcer_3.c  \
+  ./bonus_3d/help_1.c ./bonus_3d/help_2.c ./bonus_3d/help_3.c ./bonus_3d/help_4.c ./bonus_3d/help_5.c ./bonus_3d/tools_1.c ./bonus_3d/minimap.c ./bonus_3d/minimap_tools.c ./bonus_3d/sprite_move.c ./bonus_3d/draw_doors.c \
 
 OBJS = $(SRCS:.c=.o)
 
+OBJSB = $(SRCSB:.c=.o)
 
 all: $(NAME)
 
 
 $(NAME): $(OBJS) 
-	$(CC)  $(FLAG)  -lmlx -framework OpenGL -framework AppKit  $^ -o $@  
+	$(CC)  $(FLAGA)  -lmlx -framework OpenGL -framework AppKit  $^ -o $@ 
+
+bonus: $(OBJSB) 
+	$(CC)  $(FLAGA)  -lmlx -framework OpenGL -framework AppKit  $^ -o $(NAME)  
 	
-%.o : %.c  $(HEADER)
-	$(CC) $(FLAG)  -Imlx -c -o $@ $<
+%.o : %.c  $(HEADER) $(HEADER_BONUS)
+	$(CC) $(FLAGA)  -Imlx -c -o $@ $<
+
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(OBJSB)
 
 fclean: clean
-	rm -f $(NAME) 
+	rm -f $(NAME)  $(BONUS)
 
 re: fclean all 
