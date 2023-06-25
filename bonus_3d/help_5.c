@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_5.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ichouare <ichouare@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:42:31 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/24 17:24:58 by ichouare         ###   ########.fr       */
+/*   Updated: 2023/06/25 12:42:22 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,9 @@ void	init_var(t_vars *vars)
 	vars->size = 10;
 	vars->width_window = 1280;
 	vars->height_window = 720;
+	if (vars->width_window <= 0 || vars->height_window <= 0
+		|| vars->width_window > 2900 || vars->height_window > 1920)
+		exit (write(2, "ERROR : SIZE WINDOW\n", 21));
 	vars->speed = 1;
 	vars->xi = 0;
 	vars->xf = 0;

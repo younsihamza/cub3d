@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 13:36:15 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/24 17:55:34 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/25 19:36:42 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int			ft_catacter(char *str);
 char		*ft_strdup(const char *s);
 char		*ft_strjoin(char *s1, char const *s2);
 char		*ft_strchr(char *s, int c);
-int			create_trgb(int t, int r, int g, int b);
+int			create_trgb( int r, int g, int b);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 void		ft_bzero(void *s, size_t n);
 int			ft_lastindex(char *str, int find);

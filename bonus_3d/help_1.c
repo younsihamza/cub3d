@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:34:12 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/23 18:58:52 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/25 18:11:14 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ void	help_key_hook(int key, t_vars *vars)
 		vars->f_down = 1;
 	else if (key == 13)
 		vars->up = 1;
-	vars->move_p++;
+	if (vars->scop || vars->fire || vars->f_up || vars->f_right
+		|| vars->f_left || vars->f_down || vars->up)
+		vars->move_p++;
 }
 
 int	key_hook(int key, t_vars *vars)

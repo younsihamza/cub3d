@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 20:12:44 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/22 23:44:42 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/25 18:33:51 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ int	main(int argc, char **argv)
 
 	i = 0;
 	init_var(&vars);
+	if (vars.width_window <= 0 || vars.height_window <= 0
+		|| vars.width_window > 2900 || vars.height_window > 1920)
+		exit (write(2, "ERROR : SIZE WINDOW\n", 21));
 	if (argc != 2)
 		return (write(2, "ERROR :you must enter one argument\n", 35));
 	check_file_name(argv[1]);
@@ -83,6 +86,8 @@ int	main(int argc, char **argv)
 	vars.mlx = mlx_init();
 	vars.mlx_win = mlx_new_window(vars.mlx, vars.width_window,
 			vars.height_window, "cub3d");
+	if (vars.mlx_win == NULL)
+		exit (write(2, "ERROR : WINDOW CREATE\n", 21));
 	help(&vars);
 	mlx_hook(vars.mlx_win, 2, 1L << 0, key_hook, &vars);
 	mlx_hook(vars.mlx_win, 3, 1L << 1, kk, &vars);

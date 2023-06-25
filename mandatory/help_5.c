@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_5.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ichouare <ichouare@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:42:31 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/24 17:17:30 by ichouare         ###   ########.fr       */
+/*   Updated: 2023/06/25 16:56:36 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ void	init_var(t_vars *vars)
 	vars->f_down = 0;
 	vars->f_up = 0;
 	vars->size = 10;
-	vars->width_window = 1280;
-	vars->height_window = 720;
+	vars->width_window = 1920;
+	vars->height_window = 1080;
 	vars->speed = 1;
 	vars->xi = 0;
 	vars->xf = 0;

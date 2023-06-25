@@ -6,15 +6,18 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:36:13 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/22 16:58:36 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/06/25 16:53:10 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	create_trgb(int t, int r, int g, int b)
+int	create_trgb(int r, int g, int b)
 {
-	return (t << 24 | r << 16 | g << 8 | b);
+	int	rgb;
+
+	rgb = 65536 * r + 256 * g + b;
+	return (rgb);
 }
 
 void	ber_floor_ceil(t_vars *vars, int color)
