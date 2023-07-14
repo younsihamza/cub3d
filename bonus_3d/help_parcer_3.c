@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:49:24 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/25 16:48:48 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/07/12 08:57:14 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,25 @@ void	check_door(t_vars *vars)
 		}
 		v.i++;
 	}
+}
+
+int	check_point(char *str)
+{
+	int	i;
+	int	len;
+
+	len = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ',')
+			len++;
+		i++;
+	}
+	if (len != 2)
+	{
+		write(2, "ERROR : COLOR ERROR \n", 22);
+		return (-1);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 13:36:15 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/25 19:36:42 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/07/12 09:16:56 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,5 +189,7 @@ int			init_image(t_vars *vars);
 void		init_var(t_vars *vars);
 void		help_exit(t_vars *vars);
 int			check_file_ex(t_vars *vs);
+int			check_point(char *str);
+int			help_color(t_var *v);
 
 #endif

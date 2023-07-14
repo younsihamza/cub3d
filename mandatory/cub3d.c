@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 20:12:44 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/25 18:33:51 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/07/12 09:23:05 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ int	main(int argc, char **argv)
 	t_vars	vars;
 
 	i = 0;
+	if (argc != 2)
+		return (write(2, "ERROR :you must enter one argument\n", 35));
 	init_var(&vars);
 	if (vars.width_window <= 0 || vars.height_window <= 0
 		|| vars.width_window > 2900 || vars.height_window > 1920)
 		exit (write(2, "ERROR : SIZE WINDOW\n", 21));
-	if (argc != 2)
-		return (write(2, "ERROR :you must enter one argument\n", 35));
 	check_file_name(argv[1]);
 	if (parcer_map(&vars, argv[1]) == 0)
 		help_exit(&vars);

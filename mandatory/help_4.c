@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 21:41:07 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/25 12:16:11 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/07/12 10:55:54 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,7 @@ int	ft_draw(t_vars *vars)
 	vars->main_image.addr = mlx_get_data_addr(vars->main_image.img,
 			&vars->main_image.bits_per_pixel, &vars->main_image.line_length,
 			&vars->main_image.endian);
-	while (vars->store_map[v.i] != NULL)
-	{
-		v.j = 0;
-		while (vars->store_map[v.i][v.j])
-		{
-			if (v.j == (int)vars->player_x / (vars->size)
-				&& v.i == (int)vars->player_y / (vars->size))
-				simple_draw(vars, &v);
-			v.j++;
-		}
-		v.i++;
-	}
+	simple_draw(vars, &v);
 	mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->main_image.img, 0,
 		0);
 	mlx_destroy_image(vars->mlx, vars->main_image.img);

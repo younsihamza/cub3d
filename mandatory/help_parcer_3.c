@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:49:24 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/25 16:53:37 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/07/12 09:17:55 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,39 @@ int	check_file_ex(t_vars *vs)
 		}
 		i++;
 		close(fd);
+	}
+	return (0);
+}
+
+int	check_point(char *str)
+{
+	int	i;
+	int	len;
+
+	len = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ',')
+			len++;
+		i++;
+	}
+	if (len != 2)
+	{
+		write(2, "ERROR : COLOR ERROR \n", 22);
+		return (-1);
+	}
+	return (0);
+}
+
+int	help_color(t_var *v)
+{
+	if (v->tmp == NULL)
+		return (-1);
+	if (check_point(v->tmp) == -1)
+	{
+		free(v->tmp);
+		return (-1);
 	}
 	return (0);
 }

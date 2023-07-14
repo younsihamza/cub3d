@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:55:37 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/22 19:56:27 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/07/12 09:08:20 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,16 @@ void	print_player(t_vars *vars)
 		}
 		v.x++;
 	}
+}
+
+int	help_color(t_var *v)
+{
+	if (v->tmp == NULL)
+		return (-1);
+	if (check_point(v->tmp) == -1)
+	{
+		free(v->tmp);
+		return (-1);
+	}
+	return (0);
 }

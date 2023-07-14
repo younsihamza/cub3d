@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 13:36:15 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/25 16:42:37 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/07/12 09:08:42 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,5 +224,7 @@ void		v_doors(t_vars *vars, t_var *v, t_doors *doors);
 void		help_draw_door(t_vars *vars, int offset_x, t_data *image, t_var *v);
 void		draw_door(t_vars *vars, int offset_x, t_data *image);
 int			move(t_vars *vars);
+int			check_point(char *str);
+int			help_color(t_var *v);
 
 #endif

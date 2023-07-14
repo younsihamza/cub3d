@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parcer_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ichouare <ichouare@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 14:36:04 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/24 17:18:26 by ichouare         ###   ########.fr       */
+/*   Updated: 2023/07/12 09:17:12 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	check_texture_color(t_vars *vs, t_var *v)
 		{
 			v->tmp = ft_substr(vs->texture[v->i][1], 0,
 					ft_strlen(vs->texture[v->i][1]));
-			if (v->tmp == NULL)
+			if (help_color(v) == -1)
 				return (-1);
 			v->color = ft_split(v->tmp, ',');
 			free(v->tmp);

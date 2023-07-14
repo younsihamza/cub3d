@@ -1,9 +1,9 @@
-NO texture/rock.xpm   
-SO texture/wall.xpm     
-WE texture/wood.xpm      
+NO texture/rock.xpm
+SO texture/wall.xpm  
+WE texture/wood.xpm
 EA texture/q.xpm
 F  35,32,150
-C  32,23,2
+C  32,23,3
 
 1111111111111111111111111
 1000000000110000000000001

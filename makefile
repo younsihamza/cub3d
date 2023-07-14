@@ -31,9 +31,9 @@ all: $(NAME)
 
 $(NAME): $(OBJS) 
 	$(CC)  $(FLAGA)  -lmlx -framework OpenGL -framework AppKit  $^ -o $@ 
-
-bonus: $(OBJSB) 
-	$(CC)  $(FLAGA)  -lmlx -framework OpenGL -framework AppKit  $^ -o $(BONUS)  
+bonus : $(BONUS)
+$(BONUS): $(OBJSB) 
+	$(CC)  $(FLAGA)  -lmlx -framework OpenGL -framework AppKit  $^ -o $@  
 	
 %.o : %.c  $(HEADER) $(HEADER_BONUS)
 	$(CC) $(FLAGA)  -Imlx  -O3 -c -o $@ $<
