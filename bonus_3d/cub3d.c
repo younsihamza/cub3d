@@ -6,7 +6,7 @@
 /*   By: hyounsi <hyounsi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 20:12:44 by hyounsi           #+#    #+#             */
-/*   Updated: 2023/06/25 12:41:24 by hyounsi          ###   ########.fr       */
+/*   Updated: 2023/07/14 08:05:46 by hyounsi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ int	main(int argc, char **argv)
 	i = 0;
 	vars.position = -10;
 	vars.move_p = 0;
-	init_var(&vars);
 	if (argc != 2)
 		return (write(2, "ERROR :you must enter one argument\n", 35));
+	init_var(&vars);
 	check_file_name(argv[1]);
 	if (parcer_map(&vars, argv[1]) == 0)
 		help_exit(&vars);
